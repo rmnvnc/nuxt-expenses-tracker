@@ -1,5 +1,6 @@
 // @ts-check
 import withNuxt from './.nuxt/eslint.config.mjs'
+import eslintConfigPrettier from 'eslint-config-prettier/flat'
 
 export default withNuxt([
     {
@@ -10,7 +11,9 @@ export default withNuxt([
             '@stylistic/semi': 'off',
             '@stylistic/comma-dangle': 'off',
             'vue/html-indent': 'off',
-            'vue/html-self-closing': 'off'
+            'vue/html-self-closing': 'off',
+            'volar.format.enable': false
         }
-    }
+    },
+    eslintConfigPrettier
 ])

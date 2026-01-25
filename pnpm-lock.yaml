@@ -29,9 +29,18 @@ importers:
             '@nuxt/eslint':
                 specifier: ^1.12.1
                 version: 1.12.1(@typescript-eslint/utils@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.27)(eslint@9.39.2(jiti@2.6.1))(magicast@0.5.1)(typescript@5.9.3)(vite@7.3.1(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.46.0)(yaml@2.8.2))
+            '@vue/eslint-config-prettier':
+                specifier: ^10.2.0
+                version: 10.2.0(eslint@9.39.2(jiti@2.6.1))(prettier@3.8.1)
             eslint:
                 specifier: ^9.39.2
                 version: 9.39.2(jiti@2.6.1)
+            eslint-config-prettier:
+                specifier: ^10.1.8
+                version: 10.1.8(eslint@9.39.2(jiti@2.6.1))
+            eslint-plugin-prettier:
+                specifier: ^5.5.5
+                version: 5.5.5(eslint-config-prettier@10.1.8(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(prettier@3.8.1)
             prettier:
                 specifier: ^3.6.2
                 version: 3.8.1
@@ -2017,6 +2026,13 @@ packages:
             }
         engines: { node: '>=14' }
 
+    '@pkgr/core@0.2.9':
+        resolution:
+            {
+                integrity: sha512-QNqXyfVS2wm9hweSYD2O7F0G06uurj9kZ96TRQE5Y9hU7+tgdZwIkbAKc5Ocy1HxEY2kuDQa6cQ1WRs/O5LFKA==
+            }
+        engines: { node: ^12.20.0 || ^14.18.0 || >=16.0.0 }
+
     '@polka/url@1.0.0-next.29':
         resolution:
             {
@@ -3348,6 +3364,15 @@ packages:
                 integrity: sha512-bRLn6/spxpmgLk+iwOrR29KrYnJjG9DGpHGkDFG82UM21ZpJ39ztUT9OXX3g+usW7/b2z+h46I9ZiYyB07XMXg==
             }
 
+    '@vue/eslint-config-prettier@10.2.0':
+        resolution:
+            {
+                integrity: sha512-GL3YBLwv/+b86yHcNNfPJxOTtVFJ4Mbc9UU3zR+KVoG7SwGTjPT+32fXamscNumElhcpXW3mT0DgzS9w32S7Bw==
+            }
+        peerDependencies:
+            eslint: '>= 8.21.0'
+            prettier: '>= 3.0.0'
+
     '@vue/language-core@3.2.2':
         resolution:
             {
@@ -4117,8 +4142,7 @@ packages:
             {
                 integrity: sha512-OA0mILzGc1kCOCSJerOeqDxDQ4HOh+G8NbOJFOTgOCzpw7fCBubk0fEyxp8AgOL/jvLgYA/uV0cMbe43ElF1JA==
             }
-        engines:
-            { node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0, npm: '>=7.0.0' }
+        engines: { node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0, npm: '>=7.0.0' }
 
     css-tree@3.1.0:
         resolution:
@@ -4174,8 +4198,7 @@ packages:
             {
                 integrity: sha512-0LrrStPOdJj+SPCCrGhzryycLjwcgUSHBtxNA8aIDxf0GLsRh1cKYhB00Gd1lDOS4yGH69+SNn13+TWbVHETFQ==
             }
-        engines:
-            { node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0, npm: '>=7.0.0' }
+        engines: { node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0, npm: '>=7.0.0' }
 
     csstype@3.2.3:
         resolution:
@@ -4571,6 +4594,15 @@ packages:
         peerDependencies:
             eslint: ^9.5.0
 
+    eslint-config-prettier@10.1.8:
+        resolution:
+            {
+                integrity: sha512-82GZUjRS0p/jganf6q1rEO25VSoHH0hKPCTrgillPjdI/3bgBhAE1QzHrHTizjpRvy6pGAvKjDJtk2pF9NDq8w==
+            }
+        hasBin: true
+        peerDependencies:
+            eslint: '>=7.0.0'
+
     eslint-flat-config-utils@2.1.4:
         resolution:
             {
@@ -4634,6 +4666,23 @@ packages:
         engines: { node: '>=20.11.0' }
         peerDependencies:
             eslint: ^7.0.0 || ^8.0.0 || ^9.0.0
+
+    eslint-plugin-prettier@5.5.5:
+        resolution:
+            {
+                integrity: sha512-hscXkbqUZ2sPithAuLm5MXL+Wph+U7wHngPBv9OMWwlP8iaflyxpjTYZkmdgB4/vPIhemRlBEoLrH7UC1n7aUw==
+            }
+        engines: { node: ^14.18.0 || >=16.0.0 }
+        peerDependencies:
+            '@types/eslint': '>=8.0.0'
+            eslint: '>=8.0.0'
+            eslint-config-prettier: '>= 7.0.0 <10.0.0 || >=10.1.0'
+            prettier: '>=3.0.0'
+        peerDependenciesMeta:
+            '@types/eslint':
+                optional: true
+            eslint-config-prettier:
+                optional: true
 
     eslint-plugin-regexp@2.10.0:
         resolution:
@@ -4826,6 +4875,12 @@ packages:
         resolution:
             {
                 integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==
+            }
+
+    fast-diff@1.3.0:
+        resolution:
+            {
+                integrity: sha512-VxPP4NqbUjj6MaAOafWeUn2cXWLcCtljklUtZf0Ind4XQ+QPtmA0b18zZy0jIQx+ExRVCR/ZQpBmik5lXshNsw==
             }
 
     fast-fifo@1.3.2:
@@ -6863,6 +6918,13 @@ packages:
             }
         engines: { node: '>= 0.8.0' }
 
+    prettier-linter-helpers@1.0.1:
+        resolution:
+            {
+                integrity: sha512-SxToR7P8Y2lWmv/kTzVLC1t/GDI2WGjMwNhLLE9qtH8Q13C+aEmuRlzDst4Up4s0Wc8sF2M+J57iB3cMLqftfg==
+            }
+        engines: { node: '>=6.0.0' }
+
     prettier@3.8.1:
         resolution:
             {
@@ -7615,6 +7677,13 @@ packages:
             }
         engines: { node: '>=16' }
         hasBin: true
+
+    synckit@0.11.12:
+        resolution:
+            {
+                integrity: sha512-Bh7QjT8/SuKUIfObSXNHNSK6WHo6J1tHCqJsuaFDP7gP0fkzSfTxI8y85JrppZ0h8l0maIgc2tfuZQ6/t3GtnQ==
+            }
+        engines: { node: ^14.18.0 || >=16.0.0 }
 
     system-architecture@0.1.0:
         resolution:
@@ -9948,6 +10017,8 @@ snapshots:
     '@pkgjs/parseargs@0.11.0':
         optional: true
 
+    '@pkgr/core@0.2.9': {}
+
     '@polka/url@1.0.0-next.29': {}
 
     '@poppinss/colors@4.1.6':
@@ -10780,6 +10851,15 @@ snapshots:
         dependencies:
             rfdc: 1.4.1
 
+    '@vue/eslint-config-prettier@10.2.0(eslint@9.39.2(jiti@2.6.1))(prettier@3.8.1)':
+        dependencies:
+            eslint: 9.39.2(jiti@2.6.1)
+            eslint-config-prettier: 10.1.8(eslint@9.39.2(jiti@2.6.1))
+            eslint-plugin-prettier: 5.5.5(eslint-config-prettier@10.1.8(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(prettier@3.8.1)
+            prettier: 3.8.1
+        transitivePeerDependencies:
+            - '@types/eslint'
+
     '@vue/language-core@3.2.2':
         dependencies:
             '@volar/language-core': 2.4.27
@@ -11465,6 +11545,10 @@ snapshots:
             '@eslint/compat': 1.4.1(eslint@9.39.2(jiti@2.6.1))
             eslint: 9.39.2(jiti@2.6.1)
 
+    eslint-config-prettier@10.1.8(eslint@9.39.2(jiti@2.6.1)):
+        dependencies:
+            eslint: 9.39.2(jiti@2.6.1)
+
     eslint-flat-config-utils@2.1.4:
         dependencies:
             pathe: 2.0.3
@@ -11522,6 +11606,15 @@ snapshots:
             to-valid-identifier: 1.0.0
         transitivePeerDependencies:
             - supports-color
+
+    eslint-plugin-prettier@5.5.5(eslint-config-prettier@10.1.8(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(prettier@3.8.1):
+        dependencies:
+            eslint: 9.39.2(jiti@2.6.1)
+            prettier: 3.8.1
+            prettier-linter-helpers: 1.0.1
+            synckit: 0.11.12
+        optionalDependencies:
+            eslint-config-prettier: 10.1.8(eslint@9.39.2(jiti@2.6.1))
 
     eslint-plugin-regexp@2.10.0(eslint@9.39.2(jiti@2.6.1)):
         dependencies:
@@ -11690,6 +11783,8 @@ snapshots:
     exsolve@1.0.8: {}
 
     fast-deep-equal@3.1.3: {}
+
+    fast-diff@1.3.0: {}
 
     fast-fifo@1.3.2: {}
 
@@ -13067,6 +13162,10 @@ snapshots:
 
     prelude-ls@1.2.1: {}
 
+    prettier-linter-helpers@1.0.1:
+        dependencies:
+            fast-diff: 1.3.0
+
     prettier@3.8.1: {}
 
     pretty-bytes@7.1.0: {}
@@ -13535,6 +13634,10 @@ snapshots:
             csso: 5.0.5
             picocolors: 1.1.1
             sax: 1.4.4
+
+    synckit@0.11.12:
+        dependencies:
+            '@pkgr/core': 0.2.9
 
     system-architecture@0.1.0: {}
 
