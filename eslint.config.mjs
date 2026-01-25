@@ -4,8 +4,13 @@ import withNuxt from './.nuxt/eslint.config.mjs'
 export default withNuxt([
     {
         rules: {
+            // formatting nech rieši Prettier
             '@stylistic/indent': 'off',
-            '@stylistic/comma-dangle': 'off'
+            '@stylistic/quotes': 'off',
+            '@stylistic/semi': 'off',
+            '@stylistic/comma-dangle': 'off',
+            'vue/html-indent': 'off',
+            'vue/html-self-closing': 'off'
         }
     }
 ])

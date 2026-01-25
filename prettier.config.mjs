@@ -3,5 +3,5 @@ export default {
     useTabs: false,
     singleQuote: true,
     semi: false,
-    trailingComma: 'none',
+    trailingComma: 'none'
 }
