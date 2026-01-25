@@ -1,10 +1,11 @@
 // @ts-check
-import withNuxt from "./.nuxt/eslint.config.mjs";
+import withNuxt from './.nuxt/eslint.config.mjs'
 
-export default withNuxt({
+export default withNuxt([
     {
         rules: {
-            "@stylistic/indent": ["error", 4],
-        },
-    },
-});
+            '@stylistic/indent': 'off',
+            '@stylistic/comma-dangle': 'off'
+        }
+    }
+])
