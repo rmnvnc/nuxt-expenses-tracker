@@ -1,0 +1,25 @@
+
+{
+    "editor.formatOnSave": true,
+
+    // Prettier ako hlavný formátovač
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+    "[vue]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+
+    // Odsadenie v editore (to čo vidíš dole: Spaces: X)
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+
+    // Pre istotu, ak by ignoroval config
+    "prettier.tabWidth": 4,
+    "prettier.useTabs": false
+}
