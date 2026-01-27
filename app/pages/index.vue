@@ -1,3 +1,29 @@
+<script setup lang="ts">
+import { transactionViewOptions } from '~/constants'
+import type { Database } from '~/types/database.types'
+
+type Transaction = Database['public']['Tables']['transactions']['Row']
+const selectedView = ref(transactionViewOptions[1])
+
+const supabase = useSupabaseClient<Database>()
+
+const transactions = ref<Transaction[]>([])
+
+const { data, pending } = await useAsyncData<Transaction[]>(
+    'transactions',
+    async () => {
+        const { data, error } = await supabase.from('transactions').select()
+
+        if (error) return []
+
+        return data
+    },
+    { default: () => [] }
+)
+
+transactions.value = data.value
+</script>
+
 <template>
     <section class="flex items-center justify-between mb-10">
         <h1 class="text-4xl font-extrabold">Summary</h1>
@@ -39,15 +65,10 @@
         />
     </section>
     <section>
-        <AppTransaction />
-        <AppTransaction />
-        <AppTransaction />
-        <AppTransaction />
+        <AppTransaction
+            v-for="transaction in transactions"
+            :key="transaction.id"
+            :transaction="transaction"
+        />
     </section>
 </template>
-
-<script setup lang="ts">
-import { transactionViewOptions } from '~/constants'
-
-const selectedView = ref(transactionViewOptions[1])
-</script>

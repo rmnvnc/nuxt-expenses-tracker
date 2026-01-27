@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    modules: ['@nuxt/eslint', '@nuxt/hints', '@nuxt/ui'],
+    modules: ['@nuxt/eslint', '@nuxt/hints', '@nuxt/ui', '@nuxtjs/supabase'],
 
     devtools: {
         enabled: true
@@ -22,5 +22,9 @@ export default defineNuxtConfig({
                 braceStyle: '1tbs'
             }
         }
+    },
+
+    supabase: {
+        redirect: false
     }
 })
