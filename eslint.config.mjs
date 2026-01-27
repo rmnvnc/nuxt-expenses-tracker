@@ -11,7 +11,8 @@ export default withNuxt([
             '@stylistic/semi': 'off',
             '@stylistic/comma-dangle': 'off',
             'vue/html-indent': 'off',
-            'vue/html-self-closing': 'off'
+            'vue/html-self-closing': 'off',
+            'vue/no-multiple-template-root': 'off'
         }
     },
     eslintConfigPrettier
