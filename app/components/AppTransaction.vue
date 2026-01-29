@@ -1,10 +1,43 @@
 <script lang="ts" setup>
-const props = defineProps({
-    transaction: Object
-})
+import type { Database } from '~/types/database.types'
+
+type Transaction = Database['public']['Tables']['transactions']['Row']
+
+const supabase = useSupabaseClient<Database>()
+
+const props = defineProps<{
+    transaction: Transaction
+}>()
+
 const { currency } = useCurrency(props.transaction.amount)
 
 const isIncome = computed(() => props.transaction.type === 'Income')
+
+const isLoading = ref(false)
+
+const toast = useToast()
+
+const deleteTransaction = async () => {
+    console.log('TESTER')
+    isLoading.value = true
+    try {
+        await supabase.from('transactions').delete().eq('id', props.transaction.id)
+
+        toast.add({
+            title: 'Transaction deleted',
+            icon: 'heroicons:check-solid',
+            color: 'success'
+        })
+    } catch (error) {
+        toast.add({
+            title: 'Transaction deleted',
+            icon: 'heroicons:exclamation-circle',
+            color: 'error'
+        })
+    } finally {
+        isLoading.value = false
+    }
+}
 
 const items = [
     [
@@ -19,7 +52,7 @@ const items = [
             label: 'Delete',
             icon: 'heroicons:x-mark',
             onSelect() {
-                console.log('Delete')
+                deleteTransaction()
             }
         }
     ]
@@ -61,6 +94,7 @@ const iconColor = computed(() => (isIncome.value ? 'green' : 'red'))
                         icon="heroicons:ellipsis-vertical-16-solid"
                         color="neutral"
                         variant="ghost"
+                        :loading="isLoading"
                     />
                 </UDropdownMenu>
             </div>
