@@ -22,6 +22,24 @@ const { data, pending } = await useAsyncData<Transaction[]>(
 )
 
 transactions.value = data.value
+
+const transactionsGroupByDate = computed(() => {
+    let grouped = {}
+
+    for (const transaction of transactions.value) {
+        const date = new Date(transaction.created_at).toISOString().split('T')[0]
+
+        if (!grouped[date]) {
+            grouped[date] = []
+        }
+
+        grouped[date].push(transaction)
+    }
+
+    return grouped
+})
+
+console.log(transactionsGroupByDate.value)
 </script>
 
 <template>
@@ -65,10 +83,19 @@ transactions.value = data.value
         />
     </section>
     <section>
-        <AppTransaction
-            v-for="transaction in transactions"
-            :key="transaction.id"
-            :transaction="transaction"
-        />
+        <div
+            v-for="(transactionsOnDay, date) in transactionsGroupByDate"
+            :key="date"
+        >
+            <AppDailyTransaction
+                :date="date"
+                :transactions="transactionsOnDay"
+            />
+            <AppTransaction
+                v-for="transaction in transactionsOnDay"
+                :key="transaction.id"
+                :transaction="transaction"
+            />
+        </div>
     </section>
 </template>
