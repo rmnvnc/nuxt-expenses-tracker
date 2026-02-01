@@ -9,6 +9,8 @@ const props = defineProps<{
     transaction: Transaction
 }>()
 
+const emit = defineEmits(['deleted'])
+
 const { currency } = useCurrency(props.transaction.amount)
 
 const isIncome = computed(() => props.transaction.type === 'Income')
@@ -18,7 +20,6 @@ const isLoading = ref(false)
 const toast = useToast()
 
 const deleteTransaction = async () => {
-    console.log('TESTER')
     isLoading.value = true
     try {
         await supabase.from('transactions').delete().eq('id', props.transaction.id)
@@ -26,13 +27,15 @@ const deleteTransaction = async () => {
         toast.add({
             title: 'Transaction deleted',
             icon: 'heroicons:check-solid',
-            color: 'success'
+            color: 'success',
         })
+
+        emit('deleted', props.transaction.id)
     } catch (error) {
         toast.add({
             title: 'Transaction deleted',
             icon: 'heroicons:exclamation-circle',
-            color: 'error'
+            color: 'error',
         })
     } finally {
         isLoading.value = false
@@ -46,16 +49,16 @@ const items = [
             icon: 'heroicons:pencil-square',
             onSelect() {
                 console.log('Edit')
-            }
+            },
         },
         {
             label: 'Delete',
             icon: 'heroicons:x-mark',
             onSelect() {
                 deleteTransaction()
-            }
-        }
-    ]
+            },
+        },
+    ],
 ]
 
 const icon = computed(() =>

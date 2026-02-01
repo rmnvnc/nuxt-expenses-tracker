@@ -3,8 +3,8 @@ export default {
     useTabs: false,
     singleQuote: true,
     semi: false,
-    trailingComma: 'none',
+    trailingComma: 'es5',
 
     printWidth: 100,
-    singleAttributePerLine: true
+    singleAttributePerLine: true,
 }

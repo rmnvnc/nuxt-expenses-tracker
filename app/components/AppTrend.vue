@@ -4,7 +4,7 @@ const props = defineProps({
     amount: Number,
     lastAmount: Number,
     color: String,
-    loading: Boolean
+    loading: Boolean,
 })
 
 const trendingUp = computed(() => props.amount >= props.lastAmount)

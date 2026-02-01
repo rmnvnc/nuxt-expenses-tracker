@@ -6,6 +6,6 @@ export const useCurrency = (amount) => {
     })
 
     return {
-        currency
+        currency,
     }
 }
