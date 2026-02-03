@@ -11,7 +11,8 @@
         "lint:fix": "eslint . --fix",
         "typecheck": "nuxt typecheck",
         "format:check": "prettier . --check",
-        "format": "prettier . --write"
+        "format": "prettier . --write",
+        "seed": "node seed.mjs"
     },
     "dependencies": {
         "@iconify-json/lucide": "^1.2.86",
@@ -19,12 +20,16 @@
         "@nuxt/hints": "1.0.0-alpha.5",
         "@nuxt/ui": "^4.4.0",
         "@nuxtjs/supabase": "2.0.3",
+        "@supabase/supabase-js": "^2.94.0",
         "nuxt": "^4.2.2",
-        "tailwindcss": "^4.1.18"
+        "tailwindcss": "^4.1.18",
+        "zod": "^4.3.6"
     },
     "devDependencies": {
+        "@faker-js/faker": "^10.2.0",
         "@nuxt/eslint": "^1.12.1",
         "@vue/eslint-config-prettier": "^10.2.0",
+        "dotenv": "^17.2.3",
         "eslint": "^9.39.2",
         "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-prettier": "^5.5.5",
