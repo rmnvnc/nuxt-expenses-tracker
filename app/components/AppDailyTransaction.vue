@@ -13,9 +13,9 @@ const sum = computed(() => {
 
     for (const transaction of props.transactions) {
         if (transaction.type === 'Income') {
-            sum += transaction.amount
+            sum += transaction.amount ?? 0
         } else {
-            sum -= transaction.amount
+            sum -= transaction.amount ?? 0
         }
     }
     return sum

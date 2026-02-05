@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 const props = defineProps({
-    title: String,
-    amount: Number,
-    lastAmount: Number,
-    color: String,
-    loading: Boolean,
+    title: { type: String, default: '' },
+    amount: { type: Number, default: 0 },
+    lastAmount: { type: Number, default: 0 },
+    color: { type: String, default: '' },
+    loading: { type: Boolean, default: false },
 })
 
 const trendingUp = computed(() => props.amount >= props.lastAmount)
