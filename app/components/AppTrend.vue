@@ -11,7 +11,7 @@ const trendingUp = computed(() => props.amount >= props.lastAmount)
 const icon = computed(() =>
     trendingUp.value ? 'heroicons:arrow-trending-up' : 'heroicons:arrow-trending-down'
 )
-const { currency } = useCurrency(props.amount)
+const { currency } = useCurrency(toRef(props, 'amount'))
 
 const percentageTrend = computed(() => {
     if (props.amount === 0 || props.lastAmount === 0) return ''
