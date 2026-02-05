@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FormSubmitEvent } from '@nuxt/ui'
+import type { FormSubmitEvent, FormErrorEvent } from '@nuxt/ui'
 import { transactionCategories, transactionTypes } from '~/constants'
 import * as z from 'zod'
 
@@ -55,7 +55,7 @@ watch(isOpen, (newValue) => {
     }
 })
 
-function onError(event: any) {
+function onError(event: FormErrorEvent) {
     console.log('Form errors:', event)
     console.log('Errors object:', event.errors)
 }

@@ -31,9 +31,9 @@ const deleteTransaction = async () => {
         })
 
         emit('deleted', props.transaction.id)
-    } catch (error) {
+    } catch {
         toast.add({
-            title: 'Transaction deleted',
+            title: 'Transaction delete failed',
             icon: 'heroicons:exclamation-circle',
             color: 'error',
         })
