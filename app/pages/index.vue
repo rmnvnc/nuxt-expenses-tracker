@@ -1,67 +1,24 @@
 <script setup lang="ts">
 import { transactionViewOptions } from '~/constants'
-import type { Database } from '~/types/database.types'
 
-type Transaction = Database['public']['Tables']['transactions']['Row']
-type DateKey = `${number}-${number}-${number}`
-type GroupedTransactions = Record<DateKey, Transaction[]>
 const selectedView = ref(transactionViewOptions[1])
-
-const supabase = useSupabaseClient<Database>()
+const isOpen = ref(false)
 
 const {
-    data: transactions,
-    refresh,
-    pending: isLoading,
-} = await useAsyncData<Transaction[]>(
-    'transactions',
-    async () => {
-        const { data, error } = await supabase
-            .from('transactions')
-            .select()
-            .order('created_at', { ascending: false })
-
-        if (error) return []
-
-        return data
+    transactions: {
+        grouped: { byDate: transactionsGroupByDate },
+        incomeTotal,
+        incomeCount,
+        expenseCount,
+        expenseTotal,
     },
-    { default: () => [] }
-)
-
-const income = computed(() => transactions.value.filter((t) => t.type === 'Income'))
-const expense = computed(() => transactions.value.filter((t) => t.type === 'Expense'))
-
-const incomeCount = computed(() => income.value.length)
-const expenseCount = computed(() => expense.value.length)
-
-const incomeTotal = computed(() =>
-    income.value.reduce((sum, transaction) => sum + transaction.amount, 0)
-)
-
-const expenseTotal = computed(() =>
-    expense.value.reduce((sum, transaction) => sum + transaction.amount, 0)
-)
-
-const transactionsGroupByDate = computed(() => {
-    const grouped: GroupedTransactions = {}
-
-    for (const transaction of transactions.value) {
-        const date = new Date(transaction.created_at).toISOString().split('T')[0] as DateKey
-
-        if (!grouped[date]) {
-            grouped[date] = []
-        }
-
-        grouped[date].push(transaction)
-    }
-
-    return grouped
-})
-
-const isOpen = ref(false)
+    pending: isLoading,
+    refresh,
+} = useFetchTransactions()
 </script>
 
 <template>
+    <UButton @click="refresh()">REFRESH</UButton>
     <section class="flex items-center justify-between mb-10">
         <h1 class="text-4xl font-extrabold">Summary</h1>
         <div>
