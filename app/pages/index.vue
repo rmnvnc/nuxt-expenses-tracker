@@ -12,11 +12,14 @@ const supabase = useSupabaseClient<Database>()
 const {
     data: transactions,
     refresh,
-    pending: isLoading
+    pending: isLoading,
 } = await useAsyncData<Transaction[]>(
     'transactions',
     async () => {
-        const { data, error } = await supabase.from('transactions').select()
+        const { data, error } = await supabase
+            .from('transactions')
+            .select()
+            .order('created_at', { ascending: false })
 
         if (error) return []
 
@@ -114,7 +117,10 @@ const isOpen = ref(false)
                 label="Add"
                 @click="isOpen = true"
             />
-            <AppTransactionModal v-model:is-open="isOpen" />
+            <AppTransactionModal
+                v-model:is-open="isOpen"
+                @saved="refresh()"
+            />
         </div>
     </section>
 

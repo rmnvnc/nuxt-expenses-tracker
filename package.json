@@ -17,15 +17,15 @@
     "dependencies": {
         "@iconify-json/lucide": "^1.2.86",
         "@iconify-json/simple-icons": "^1.2.67",
-        "@nuxt/hints": "1.0.0-alpha.5",
         "@nuxt/ui": "^4.4.0",
         "@nuxtjs/supabase": "2.0.3",
-        "@supabase/supabase-js": "^2.94.0",
         "nuxt": "^4.2.2",
         "tailwindcss": "^4.1.18",
         "zod": "^4.3.6"
     },
     "devDependencies": {
+        "@nuxt/hints": "1.0.0-alpha.5",
+        "@supabase/supabase-js": "^2.94.0",
         "@faker-js/faker": "^10.2.0",
         "@nuxt/eslint": "^1.12.1",
         "@vue/eslint-config-prettier": "^10.2.0",
