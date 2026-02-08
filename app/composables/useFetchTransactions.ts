@@ -4,7 +4,7 @@ type Transaction = Database['public']['Tables']['transactions']['Row']
 type DateKey = `${number}-${number}-${number}`
 type GroupedTransactions = Record<DateKey, Transaction[]>
 
-export const useFetchTransactions = () => {
+export const useFetchTransactions = (period) => {
     const supabase = useSupabaseClient<Database>()
 
     const {
@@ -12,19 +12,21 @@ export const useFetchTransactions = () => {
         refresh,
         pending,
     } = useAsyncData<Transaction[]>(
-        'transactions',
+        `transactions-${period.value.from.toDateString()}-${period.value.to.toDateString()}`,
         async () => {
             const { data, error } = await supabase
                 .from('transactions')
                 .select()
-                .limit(100)
+                .gte('created_at', period.value.from.toISOString())
+                .lte('created_at', period.value.to.toISOString())
                 .order('created_at', { ascending: false })
+                .limit(100)
 
             if (error) return []
 
             return data
         },
-        { default: () => [] }
+        { default: () => [], watch: [period] }
     )
 
     const stats = computed(() => {

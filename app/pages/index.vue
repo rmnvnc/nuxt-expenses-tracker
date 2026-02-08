@@ -1,10 +1,18 @@
 <script setup lang="ts">
+import { useSelectedTimePeriod } from '~/composables/useSelectedTimePeriod'
 import { transactionViewOptions } from '~/constants'
 
 const selectedView = ref(transactionViewOptions[1])
 const isOpen = ref(false)
 
+const { current, previous } = useSelectedTimePeriod(selectedView)
+
+const isLoading = computed(() => {
+    return pendingCurrent.value || pendingPrevious.value
+})
+
 const {
+    refresh: refreshCurrent,
     transactions: {
         grouped: { byDate: transactionsGroupByDate },
         incomeTotal,
@@ -12,13 +20,21 @@ const {
         expenseCount,
         expenseTotal,
     },
-    pending: isLoading,
-    refresh,
-} = useFetchTransactions()
+    pending: pendingCurrent,
+} = useFetchTransactions(current)
+
+const {
+    transactions: { incomeTotal: prevIncomeTotal, expenseTotal: prevExpenseTotal },
+    pending: pendingPrevious,
+    refresh: refreshPrevious,
+} = useFetchTransactions(previous)
+
+const refresh = async () => {
+    await Promise.all([refreshCurrent(), refreshPrevious()])
+}
 </script>
 
 <template>
-    <UButton @click="refresh()">REFRESH</UButton>
     <section class="flex items-center justify-between mb-10">
         <h1 class="text-4xl font-extrabold">Summary</h1>
         <div>
@@ -33,14 +49,14 @@ const {
             color="green"
             title="Income"
             :amount="incomeTotal"
-            :last-amount="3000"
+            :last-amount="prevIncomeTotal"
             :loading="isLoading"
         />
         <AppTrend
             color="red"
             title="Expenses"
             :amount="expenseTotal"
-            :last-amount="5000"
+            :last-amount="prevExpenseTotal"
             :loading="isLoading"
         />
         <AppTrend

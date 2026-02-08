@@ -80,11 +80,13 @@ const iconColor = computed(() => (isIncome.value ? 'green' : 'red'))
     >
         <div class="flex items-center justify-between space-x-4 col-span-2">
             <div class="flex items-center space-x-1">
-                <UIcon
-                    :name="icon"
-                    class="w-6 h-6"
-                    :class="iconColor"
-                />
+                <div>
+                    <UIcon
+                        :name="icon"
+                        class="w-6 h-6"
+                        :class="iconColor"
+                    />
+                </div>
                 <div>{{ transaction.description }}</div>
             </div>
             <div>

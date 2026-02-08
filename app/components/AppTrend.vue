@@ -1,27 +1,30 @@
 <script lang="ts" setup>
-const props = defineProps({
-    title: { type: String, default: '' },
-    amount: { type: Number, default: 0 },
-    lastAmount: { type: Number, default: 0 },
-    color: { type: String, default: '' },
-    loading: { type: Boolean, default: false },
+interface Props {
+    title?: string
+    amount?: number
+    lastAmount?: number
+    loading?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    title: '',
+    amount: 0,
+    lastAmount: 0,
+    loading: false,
 })
 
 const trendingUp = computed(() => props.amount >= props.lastAmount)
 const icon = computed(() =>
     trendingUp.value ? 'heroicons:arrow-trending-up' : 'heroicons:arrow-trending-down'
 )
-const { currency } = useCurrency(toRef(props, 'amount'))
+const { currency } = useCurrency(toRef(() => props.amount))
 
 const percentageTrend = computed(() => {
-    if (props.amount === 0 || props.lastAmount === 0) return ''
+    if (props.lastAmount === 0) return 'N/A'
 
-    const bigger = Math.max(props.amount, props.lastAmount)
-    const lower = Math.min(props.amount, props.lastAmount)
+    const change = ((props.amount - props.lastAmount) / props.lastAmount) * 100
 
-    const ratio = ((bigger - lower) / lower) * 100
-
-    return `${Math.ceil(ratio)} %`
+    return `${Math.abs(Math.round(change))}%`
 })
 </script>
 
