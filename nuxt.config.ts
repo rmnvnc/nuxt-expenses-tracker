@@ -3,14 +3,14 @@ export default defineNuxtConfig({
     modules: ['@nuxt/eslint', '@nuxt/hints', '@nuxt/ui', '@nuxtjs/supabase'],
 
     devtools: {
-        enabled: true
+        enabled: true,
     },
 
     css: ['~/assets/css/main.css'],
     srcDir: 'app/',
 
     routeRules: {
-        '/': { prerender: true }
+        '/': { prerender: true },
     },
 
     compatibilityDate: '2025-01-15',
@@ -19,12 +19,12 @@ export default defineNuxtConfig({
         config: {
             stylistic: {
                 commaDangle: 'never',
-                braceStyle: '1tbs'
-            }
-        }
+                braceStyle: '1tbs',
+            },
+        },
     },
 
     supabase: {
-        redirect: false
-    }
+        redirect: false,
+    },
 })
