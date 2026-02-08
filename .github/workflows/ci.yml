@@ -16,6 +16,7 @@ concurrency:
 jobs:
     ci:
         runs-on: ${{ matrix.os }}
+        environment: github-pages
 
         strategy:
             matrix:
@@ -52,6 +53,8 @@ jobs:
               env:
                   # GitHub Pages URL je https://<user>.github.io/<repo>/
                   NUXT_APP_BASE_URL: /${{ github.event.repository.name }}/
+                  NUXT_PUBLIC_SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+                  NUXT_PUBLIC_SUPABASE_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
 
             - name: Upload Pages artifact
               uses: actions/upload-pages-artifact@v3
