@@ -4,7 +4,7 @@ type Transaction = Database['public']['Tables']['transactions']['Row']
 type DateKey = `${number}-${number}-${number}`
 type GroupedTransactions = Record<DateKey, Transaction[]>
 
-export const useFetchTransactions = (period) => {
+export const useFetchTransactions = (period: Ref<{ from: Date; to: Date }>) => {
     const supabase = useSupabaseClient<Database>()
 
     const {

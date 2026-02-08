@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { useSelectedTimePeriod } from '~/composables/useSelectedTimePeriod'
 import { transactionViewOptions } from '~/constants'
+import type { TransactionViewOption } from '~/constants'
 
-const selectedView = ref(transactionViewOptions[1])
+const selectedView = ref<TransactionViewOption>('Monthly')
 const isOpen = ref(false)
 
 const { current, previous } = useSelectedTimePeriod(selectedView)

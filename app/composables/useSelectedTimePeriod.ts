@@ -1,3 +1,5 @@
+import type { Ref } from 'vue'
+import type { TransactionViewOption } from '~/constants'
 import {
     endOfDay,
     endOfMonth,
@@ -8,7 +10,7 @@ import {
     sub,
 } from 'date-fns'
 
-export const useSelectedTimePeriod = (period) => {
+export const useSelectedTimePeriod = (period: Ref<TransactionViewOption>) => {
     const current = computed(() => {
         switch (period.value) {
             case 'Yearly':

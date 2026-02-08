@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import type { FormSubmitEvent, FormErrorEvent } from '@nuxt/ui'
-import { transactionCategories, transactionTypes } from '~/constants'
+import {
+    transactionCategories,
+    transactionTypes,
+    transactionCategoriesTuple,
+    transactionTypesTuple,
+} from '~/constants'
+import type { TransactionType, TransactionCategory } from '~/constants'
 import * as z from 'zod'
 
 type Schema = z.output<typeof schema>
@@ -8,7 +14,7 @@ type Schema = z.output<typeof schema>
 const isOpen = defineModel<boolean>('isOpen', { required: true })
 
 const defaultSchema = z.object({
-    type: z.enum(transactionTypes),
+    type: z.enum(transactionTypesTuple),
     amount: z.number().positive('Amount needs to be more than 0'),
     created_at: z.string(),
     description: z.string().optional(),
@@ -19,7 +25,7 @@ const incomeSchema = z.object({
 })
 const expenseSchema = z.object({
     type: z.literal('Expense'),
-    category: z.enum(transactionCategories),
+    category: z.enum(transactionCategoriesTuple),
 })
 const investmentSchema = z.object({
     type: z.literal('Investment'),
@@ -34,11 +40,11 @@ const schema = z.intersection(
 )
 
 const initialState = {
-    type: undefined,
+    type: undefined as TransactionType | undefined,
     amount: 0,
-    created_at: undefined,
-    description: undefined,
-    category: undefined,
+    created_at: undefined as string | undefined,
+    description: undefined as string | undefined,
+    category: undefined as TransactionCategory | undefined,
 }
 
 const state = ref({
