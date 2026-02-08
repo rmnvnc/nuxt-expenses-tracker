@@ -27,19 +27,39 @@ export const useFetchTransactions = () => {
         { default: () => [] }
     )
 
-    const income = computed(() => transactions.value.filter((t) => t.type === 'Income'))
-    const expense = computed(() => transactions.value.filter((t) => t.type === 'Expense'))
+    const stats = computed(() => {
+        return transactions.value.reduce(
+            (acc, t) => {
+                if (t.type === 'Income') {
+                    acc.income.push(t)
+                    acc.incomeTotal += t.amount ?? 0
+                    acc.incomeCount += 1
+                } else if (t.type === 'Expense') {
+                    acc.expense.push(t)
+                    acc.expenseTotal += t.amount ?? 0
+                    acc.expenseCount += 1
+                }
+                return acc
+            },
+            {
+                income: [] as Transaction[],
+                expense: [] as Transaction[],
+                incomeTotal: 0,
+                expenseTotal: 0,
+                incomeCount: 0,
+                expenseCount: 0,
+            }
+        )
+    })
 
-    const incomeCount = computed(() => income.value.length)
-    const expenseCount = computed(() => expense.value.length)
+    const income = computed(() => stats.value.income)
+    const expense = computed(() => stats.value.expense)
 
-    const incomeTotal = computed(() =>
-        income.value.reduce((sum, transaction) => sum + (transaction.amount ?? 0), 0)
-    )
+    const incomeCount = computed(() => stats.value.incomeCount)
+    const expenseCount = computed(() => stats.value.expenseCount)
 
-    const expenseTotal = computed(() =>
-        expense.value.reduce((sum, transaction) => sum + (transaction.amount ?? 0), 0)
-    )
+    const incomeTotal = computed(() => stats.value.incomeTotal)
+    const expenseTotal = computed(() => stats.value.expenseTotal)
 
     const transactionsGroupByDate = computed(() => {
         const grouped: GroupedTransactions = {}

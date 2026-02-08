@@ -1,8 +1,6 @@
-export const useCurrency = (amount: number | Ref<number>) => {
+export const useCurrency = (amount: MaybeRef<number>) => {
     const currency = computed(() =>
-        new Intl.NumberFormat('sk-SK', { style: 'currency', currency: 'EUR' }).format(
-            isRef(amount) ? amount.value : amount
-        )
+        new Intl.NumberFormat('sk-SK', { style: 'currency', currency: 'EUR' }).format(unref(amount))
     )
 
     return { currency }

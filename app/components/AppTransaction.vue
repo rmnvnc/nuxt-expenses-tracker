@@ -11,8 +11,7 @@ const props = defineProps<{
 
 const emit = defineEmits(['deleted'])
 
-const amount = computed(() => props.transaction.amount ?? 0)
-const { currency } = useCurrency(amount)
+const { currency } = useCurrency(computed(() => props.transaction.amount ?? 0))
 
 const isIncome = computed(() => props.transaction.type === 'Income')
 
@@ -37,9 +36,10 @@ const deleteTransaction = async () => {
         })
 
         emit('deleted', props.transaction.id)
-    } catch {
+    } catch (error) {
         toast.add({
             title: 'Transaction delete failed',
+            description: (error as Error).message,
             icon: 'heroicons:exclamation-circle',
             color: 'error',
         })

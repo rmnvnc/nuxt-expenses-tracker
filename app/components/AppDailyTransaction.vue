@@ -8,18 +8,15 @@ const props = defineProps<{
     transactions: Transaction[]
 }>()
 
-const sum = computed(() => {
-    let sum = 0
-
-    for (const transaction of props.transactions) {
-        if (transaction.type === 'Income') {
-            sum += transaction.amount ?? 0
-        } else {
-            sum -= transaction.amount ?? 0
-        }
-    }
-    return sum
-})
+const sum = computed(() =>
+    props.transactions.reduce(
+        (acc, transaction) =>
+            transaction.type === 'Income'
+                ? (acc += transaction.amount ?? 0)
+                : (acc -= transaction.amount ?? 0),
+        0
+    )
+)
 
 const { currency } = useCurrency(sum)
 </script>

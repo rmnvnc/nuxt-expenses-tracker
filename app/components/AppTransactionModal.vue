@@ -49,11 +49,7 @@ const resetForm = () => {
     Object.assign(state.value, initialState)
 }
 
-watch(isOpen, (newValue) => {
-    if (newValue) {
-        resetForm()
-    }
-})
+watch(isOpen, () => resetForm())
 
 function onError(event: FormErrorEvent) {
     console.log('Form errors:', event)
