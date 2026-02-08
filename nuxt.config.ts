@@ -10,7 +10,7 @@ export default defineNuxtConfig({
     srcDir: 'app/',
 
     routeRules: {
-        '/': { prerender: true },
+        '/': { prerender: false },
     },
 
     compatibilityDate: '2025-01-15',

@@ -38,6 +38,9 @@ jobs:
 
             - name: Install dependencies
               run: pnpm install
+              env:
+                  SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+                  SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
 
             - name: Format check
               run: pnpm run format:check
