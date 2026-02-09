@@ -50,7 +50,7 @@ const percentageTrend = computed(() => {
             />
             <div
                 v-else
-                class="flex space-x-1 items-center"
+                class="flex space-x-1"
             >
                 <UIcon
                     :name="icon"
