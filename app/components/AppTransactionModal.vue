@@ -66,7 +66,7 @@ const isLoading = ref(false)
 const emit = defineEmits(['saved'])
 
 const supabase = useSupabaseClient()
-const toast = useToast()
+const { toastError, toastSuccess } = useAppToast()
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     isLoading.value = true
@@ -74,17 +74,15 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const { error } = await supabase.from('transactions').upsert({ ...event.data })
 
     if (error) {
-        toast.add({
+        toastError({
             title: 'Transaction not saved',
             description: error.message,
-            icon: 'heroicons:x-circle',
-            color: 'error',
         })
         isLoading.value = false
         return
     }
 
-    toast.add({ title: 'Transaction saved', icon: 'heroicons:check-circle' })
+    toastSuccess({ title: 'Transaction saved' })
     isOpen.value = false
     emit('saved')
     isLoading.value = false

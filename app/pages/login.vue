@@ -22,7 +22,7 @@ const state = reactive<Partial<Schema>>({
 const pending = ref(false)
 const success = ref(false)
 
-const toast = useToast()
+const { toastError, toastSuccess } = useAppToast()
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     success.value = false
@@ -39,17 +39,14 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         })
 
         if (error) {
-            toast.add({
+            toastError({
                 title: 'Error authenticating',
-                icon: 'i-heroicons-exlamation-circle',
                 description: error.message,
-                color: 'error',
             })
         } else {
-            toast.add({
+            toastSuccess({
                 title: 'Success',
                 description: 'The form has been submitted.',
-                color: 'success',
             })
             success.value = true
         }

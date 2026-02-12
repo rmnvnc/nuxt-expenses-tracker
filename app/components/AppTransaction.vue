@@ -17,7 +17,7 @@ const isIncome = computed(() => props.transaction.type === 'Income')
 
 const isLoading = ref(false)
 
-const toast = useToast()
+const { toastError, toastSuccess } = useAppToast()
 
 const deleteTransaction = async () => {
     isLoading.value = true
@@ -29,19 +29,15 @@ const deleteTransaction = async () => {
 
         if (error) throw error
 
-        toast.add({
+        toastSuccess({
             title: 'Transaction deleted',
-            icon: 'heroicons:check-solid',
-            color: 'success',
         })
 
         emit('deleted', props.transaction.id)
     } catch (error) {
-        toast.add({
+        toastError({
             title: 'Transaction delete failed',
             description: (error as Error).message,
-            icon: 'heroicons:exclamation-circle',
-            color: 'error',
         })
     } finally {
         isLoading.value = false
