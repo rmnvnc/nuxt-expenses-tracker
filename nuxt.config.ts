@@ -7,12 +7,18 @@ export default defineNuxtConfig({
     },
 
     css: ['~/assets/css/main.css'],
+
+    runtimeConfig: {
+        public: {
+            siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+        },
+    },
+
     srcDir: 'app/',
 
     routeRules: {
         '/': { prerender: true },
     },
-
     compatibilityDate: '2025-01-15',
 
     eslint: {
@@ -25,6 +31,6 @@ export default defineNuxtConfig({
     },
 
     supabase: {
-        redirect: false,
+        redirect: true,
     },
 })

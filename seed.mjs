@@ -2,12 +2,20 @@ import { createClient } from '@supabase/supabase-js'
 import { faker } from '@faker-js/faker'
 import 'dotenv/config'
 
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY, {
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
     auth: { persistSession: false },
 })
 const categories = ['Food', 'Housing', 'Car', 'Entertainment']
+const {
+    data: { users },
+} = await supabase.auth.admin.listUsers()
+const userIds = users.map((user) => user.id)
 
-async function seedTransactions() {
+for (const userId of userIds) {
+    await seedTransactions(userId)
+}
+
+async function seedTransactions(userId) {
     // Delete existing data
     const { error: deleteError } = await supabase.from('transactions').delete().gte('id', 0)
 
@@ -60,6 +68,7 @@ async function seedTransactions() {
                 type,
                 description: faker.lorem.sentence(),
                 category: type === 'Expense' ? category : null, // Category only for 'Expense'
+                user_id: userId,
             })
         }
     }
@@ -73,4 +82,4 @@ async function seedTransactions() {
     }
 }
 
-seedTransactions().catch(console.error)
+// seedTransactions().catch(console.error)
