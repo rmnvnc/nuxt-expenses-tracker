@@ -16,9 +16,9 @@ export default defineNuxtConfig({
 
     srcDir: 'app/',
 
-    routeRules: {
-        '/': { prerender: true },
-    },
+    // routeRules: {
+    //     '/': { prerender: true },
+    // },
     compatibilityDate: '2025-01-15',
 
     eslint: {

@@ -22,6 +22,7 @@ const items = ref<DropdownMenuItem[][]>([
         {
             label: 'Settings',
             icon: 'i-lucide-cog',
+            to: '/settings',
         },
     ],
     [
