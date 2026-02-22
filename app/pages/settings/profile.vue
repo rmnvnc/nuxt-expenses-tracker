@@ -4,6 +4,7 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 
 const { toastError, toastSuccess } = useAppToast()
 const supabase = useSupabaseClient()
+const { profile, refreshUser } = useUser()
 
 const schema = z.object({
     name: z.string().min(2, 'Name must be at least 2 characters long').optional(),
@@ -14,15 +15,12 @@ type Schema = z.output<typeof schema>
 
 const state = reactive<Partial<Schema>>({ name: undefined, email: undefined })
 
-const hydrateUser = async () => {
-    const { data } = await supabase.auth.getUser()
-    if (data.user) {
-        state.name = data.user.user_metadata?.full_name ?? undefined
-        state.email = data.user.email ?? undefined
-    }
+const hydrateUser = () => {
+    state.name = profile.value?.user_metadata?.full_name ?? undefined
+    state.email = profile.value?.email ?? undefined
 }
 
-onMounted(hydrateUser)
+watch(profile, hydrateUser, { immediate: true })
 
 const pending = ref(false)
 
@@ -42,16 +40,17 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             throw error
         }
 
-        await hydrateUser()
+        await refreshUser()
+        hydrateUser()
 
         toastSuccess({
             title: 'Success',
             description: 'Your profile has been updated.',
         })
-    } catch (error) {
+    } catch (error: unknown) {
         toastError({
             title: 'Error updating profile',
-            description: error.message,
+            description: error instanceof Error ? error.message : 'Unknown error',
         })
     } finally {
         pending.value = false

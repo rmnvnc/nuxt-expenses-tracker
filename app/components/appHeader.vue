@@ -2,12 +2,12 @@
 import type { DropdownMenuItem } from '@nuxt/ui'
 
 const supabase = useSupabaseClient()
-const user = useSupabaseUser()
+const { profile: user } = useUser()
 
-const items = ref<DropdownMenuItem[][]>([
+const items = computed<DropdownMenuItem[][]>(() => [
     [
         {
-            label: user.value?.email || 'User',
+            label: user.value?.user_metadata?.full_name || user.value?.email || 'User',
             avatar: {
                 src: 'https://avatars.githubusercontent.com/u/81642663?v=4&size=64',
             },
@@ -36,6 +36,7 @@ const items = ref<DropdownMenuItem[][]>([
         },
     ],
 ])
+
 </script>
 
 <template>
@@ -43,6 +44,7 @@ const items = ref<DropdownMenuItem[][]>([
         <NuxtLink to="/">Finance tracker</NuxtLink>
         <div>
             <ClientOnly>
+                {{ user?.user_metadata?.full_name || 'Uzivatelske meno' }}
                 <UDropdownMenu
                     v-if="user"
                     :items="items"
