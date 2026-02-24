@@ -5,15 +5,15 @@ const items = ref<NavigationMenuItem[][]>([
     [
         {
             label: 'Avatar',
-            to: '/settings/avatar',
+            to: '/dashboard/settings/avatar',
         },
         {
             label: 'Profile',
-            to: '/settings/profile',
+            to: '/dashboard/settings/profile',
         },
         {
             label: 'Settings',
-            to: '/settings/settings',
+            to: '/dashboard/settings/preferences',
         },
     ],
 ])

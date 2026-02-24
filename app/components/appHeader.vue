@@ -9,6 +9,9 @@ const displayAvatar = computed(
     () => avatarUrl.value || 'https://avatars.githubusercontent.com/u/81642663?v=4&size=64'
 )
 
+const route = useRoute()
+const isHome = computed(() => route.path === '/')
+
 const items = computed<DropdownMenuItem[][]>(() => [
     [
         {
@@ -27,7 +30,7 @@ const items = computed<DropdownMenuItem[][]>(() => [
         {
             label: 'Settings',
             icon: 'i-lucide-cog',
-            to: '/settings',
+            to: '/dashboard/settings',
         },
     ],
     [
@@ -45,15 +48,33 @@ const items = computed<DropdownMenuItem[][]>(() => [
 
 <template>
     <header class="flex justify-between items-center my-5">
-        <NuxtLink to="/">Finance tracker</NuxtLink>
+        <NuxtLink to="/dashboard">Finance tracker</NuxtLink>
         <div>
             <ClientOnly>
+                <template #fallback>
+                    <USkeleton class="h-8 w-14" />
+                </template>
                 <div v-if="isLoggedIn">
-                    {{ displayName }}
-                    <UDropdownMenu :items="items">
+                    <UButton
+                        v-if="isHome"
+                        to="/dashboard"
+                        label="Open dashboard"
+                    />
+                    <template v-else>
+                        {{ displayName }}
+                    </template>
+                    <UDropdownMenu
+                        :items="items"
+                        class="ml-4"
+                    >
                         <UAvatar :src="displayAvatar" />
                     </UDropdownMenu>
                 </div>
+                <UButton
+                    v-else
+                    to="/login"
+                    label="Login"
+                />
             </ClientOnly>
         </div>
     </header>

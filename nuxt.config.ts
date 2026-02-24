@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     modules: ['@nuxt/eslint', '@nuxt/hints', '@nuxt/ui', '@nuxtjs/supabase'],
-    ssr: false,
+    ssr: true,
 
     devtools: {
         enabled: true,
@@ -17,9 +17,14 @@ export default defineNuxtConfig({
 
     srcDir: 'app/',
 
-    // routeRules: {
-    //     '/': { prerender: true },
-    // },
+    routeRules: {
+        '/': { ssr: true },
+        '/dashboard': { ssr: false },
+        '/dashboard/**': { ssr: false },
+        '/login': { ssr: false },
+        '/confirm': { ssr: false },
+    },
+
     compatibilityDate: '2025-01-15',
 
     eslint: {

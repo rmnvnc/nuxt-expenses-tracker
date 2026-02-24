@@ -1,129 +1,62 @@
 <script setup lang="ts">
-import { useSelectedTimePeriod } from '~/composables/useSelectedTimePeriod'
-import { transactionViewOptionDefault, transactionViewOptions } from '~/constants'
-import type { TransactionViewOption } from '~/constants'
-
-const { profile } = useUser()
-
-const selectedView = ref<TransactionViewOption>(
-    profile.value?.user_metadata.preference?.transaction_view ?? transactionViewOptionDefault
-)
-const isOpen = ref(false)
-
-const { current, previous } = useSelectedTimePeriod(selectedView)
-
-const isLoading = computed(() => {
-    return pendingCurrent.value || pendingPrevious.value
-})
-
-const {
-    refresh: refreshCurrent,
-    transactions: {
-        grouped: { byDate: transactionsGroupByDate },
-        incomeTotal,
-        incomeCount,
-        expenseCount,
-        expenseTotal,
-    },
-    pending: pendingCurrent,
-} = useFetchTransactions(current)
-
-const {
-    transactions: { incomeTotal: prevIncomeTotal, expenseTotal: prevExpenseTotal },
-    pending: pendingPrevious,
-    refresh: refreshPrevious,
-} = useFetchTransactions(previous)
-
-const refresh = async () => {
-    await Promise.all([refreshCurrent(), refreshPrevious()])
-}
+const { isLoggedIn } = useUser()
 </script>
 
 <template>
-    <section class="flex items-center justify-between mb-10">
-        <h1 class="text-4xl font-extrabold">Summary</h1>
-        <div>
-            <USelect
-                v-model="selectedView"
-                :items="transactionViewOptions"
-            />
-        </div>
-    </section>
-    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sm:gap-16 mb-10">
-        <AppTrend
-            color="green"
-            title="Income"
-            :amount="incomeTotal"
-            :last-amount="prevIncomeTotal"
-            :loading="isLoading"
-        />
-        <AppTrend
-            color="red"
-            title="Expenses"
-            :amount="expenseTotal"
-            :last-amount="prevExpenseTotal"
-            :loading="isLoading"
-        />
-        <AppTrend
-            color="green"
-            title="Investments"
-            :amount="4000"
-            :last-amount="3000"
-            :loading="isLoading"
-        />
-        <AppTrend
-            color="green"
-            title="Savings"
-            :amount="4000"
-            :last-amount="5000"
-            :loading="isLoading"
-        />
-    </section>
-
-    <section class="flex justify-between mb-10">
-        <div>
-            <h2 class="text-2xl font-extrabold">Transactions</h2>
-            <div class="text-gray-500 dark:text-gray-100">
-                You have {{ incomeCount }} incomes and {{ expenseCount }} expenses this period
+    <div class="py-16">
+        <section class="text-center">
+            <p class="text-sm uppercase tracking-widest">Personal finance</p>
+            <h1 class="mt-4 text-4xl sm:text-5xl font-extrabold">Finance tracker for real life</h1>
+            <p class="mt-4 text-lg max-w-2xl mx-auto">
+                Track income, expenses and trends in one place. Simple, fast, and private.
+            </p>
+            <div class="mt-8 flex items-center justify-center gap-4">
+                <ClientOnly>
+                    <template #fallback>
+                        <UButton
+                            to="/login"
+                            label="Login"
+                            size="xl"
+                            color="neutral"
+                        />
+                    </template>
+                    <UButton
+                        v-if="isLoggedIn"
+                        to="/dashboard"
+                        label="Open dashboard"
+                        size="xl"
+                        color="neutral"
+                    />
+                    <UButton
+                        v-else
+                        to="/login"
+                        label="Login"
+                        size="xl"
+                        color="neutral"
+                    />
+                </ClientOnly>
             </div>
-        </div>
-        <div>
-            <UButton
-                icon="heroicons:plus-circle"
-                color="neutral"
-                variant="outline"
-                label="Add"
-                @click="isOpen = true"
-            />
-            <AppTransactionModal
-                v-model:is-open="isOpen"
-                @saved="refresh()"
-            />
-        </div>
-    </section>
+        </section>
 
-    <section v-if="!isLoading">
-        <div
-            v-for="(transactionsOnDay, date) in transactionsGroupByDate"
-            :key="date"
-        >
-            <AppDailyTransaction
-                :date="date"
-                :transactions="transactionsOnDay"
-            />
-            <AppTransaction
-                v-for="transaction in transactionsOnDay"
-                :key="transaction.id"
-                :transaction="transaction"
-                @deleted="refresh()"
-            />
-        </div>
-    </section>
-    <section v-else>
-        <USkeleton
-            v-for="i in 3"
-            :key="i"
-            class="h-8 w-full mb-2"
-        />
-    </section>
+        <section class="mt-16 grid gap-6 sm:grid-cols-3">
+            <div class="p-6 rounded-lg border border-gray-200 bg-white">
+                <h3 class="font-semibold text-gray-900">Real-time overview</h3>
+                <p class="mt-2 text-sm text-gray-600">
+                    Instant totals and trends for the selected period.
+                </p>
+            </div>
+            <div class="p-6 rounded-lg border border-gray-200 bg-white">
+                <h3 class="font-semibold text-gray-900">Simple input</h3>
+                <p class="mt-2 text-sm text-gray-600">
+                    Add expenses in seconds with categories and notes.
+                </p>
+            </div>
+            <div class="p-6 rounded-lg border border-gray-200 bg-white">
+                <h3 class="font-semibold text-gray-900">Secure by default</h3>
+                <p class="mt-2 text-sm text-gray-600">
+                    Your data stays private and synced to your account.
+                </p>
+            </div>
+        </section>
+    </div>
 </template>
