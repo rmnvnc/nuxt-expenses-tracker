@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { useSelectedTimePeriod } from '~/composables/useSelectedTimePeriod'
-import { transactionViewOptions } from '~/constants'
+import { transactionViewOptionDefault, transactionViewOptions } from '~/constants'
 import type { TransactionViewOption } from '~/constants'
 
-const selectedView = ref<TransactionViewOption>('Monthly')
+const { profile } = useUser()
+
+const selectedView = ref<TransactionViewOption>(
+    profile.value?.user_metadata.preference?.transaction_view ?? transactionViewOptionDefault
+)
 const isOpen = ref(false)
 
 const { current, previous } = useSelectedTimePeriod(selectedView)
