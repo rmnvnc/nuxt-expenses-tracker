@@ -1,4 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+console.log('VERCEL_URL', process.env.VERCEL_URL)
+console.log('VERCEL_PROJECT_PRODUCTION_URL', process.env.VERCEL_PROJECT_PRODUCTION_URL)
+console.log('VERCEL_ENV', process.env.VERCEL_ENV)
+console.log('ALL', process.env)
+
 export default defineNuxtConfig({
     modules: ['@nuxt/eslint', '@nuxt/hints', '@nuxt/ui', '@nuxtjs/supabase'],
     ssr: true,
