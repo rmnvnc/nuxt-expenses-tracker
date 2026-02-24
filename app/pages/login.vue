@@ -3,7 +3,7 @@ import * as z from 'zod'
 import type { FormSubmitEvent } from '@nuxt/ui'
 import { useSupabaseClient } from '#imports'
 
-useRedirectIfAuthenticated()
+definePageMeta({ middleware: 'guest' })
 
 const supabase = useSupabaseClient()
 const config = useRuntimeConfig()

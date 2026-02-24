@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-useRedirectIfAuthenticated()
+definePageMeta({ middleware: 'guest' })
 </script>
 
 <template>

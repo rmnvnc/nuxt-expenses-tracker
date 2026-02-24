@@ -2,14 +2,19 @@
 import type { DropdownMenuItem } from '@nuxt/ui'
 
 const supabase = useSupabaseClient()
-const { profile: user } = useUser()
+const { fullName, email, avatarUrl, isLoggedIn } = useUser()
+
+const displayName = computed(() => fullName.value || email.value || 'User')
+const displayAvatar = computed(
+    () => avatarUrl.value || 'https://avatars.githubusercontent.com/u/81642663?v=4&size=64'
+)
 
 const items = computed<DropdownMenuItem[][]>(() => [
     [
         {
-            label: user.value?.user_metadata?.full_name || user.value?.email || 'User',
+            label: displayName.value,
             avatar: {
-                src: 'https://avatars.githubusercontent.com/u/81642663?v=4&size=64',
+                src: displayAvatar.value,
             },
             type: 'label',
         },
@@ -36,7 +41,6 @@ const items = computed<DropdownMenuItem[][]>(() => [
         },
     ],
 ])
-
 </script>
 
 <template>
@@ -44,15 +48,12 @@ const items = computed<DropdownMenuItem[][]>(() => [
         <NuxtLink to="/">Finance tracker</NuxtLink>
         <div>
             <ClientOnly>
-                {{ user?.user_metadata?.full_name || 'Uzivatelske meno' }}
-                <UDropdownMenu
-                    v-if="user"
-                    :items="items"
-                >
-                    <UAvatar
-                        src="https://avatars.githubusercontent.com/u/81642663?v=4&size=64"
-                    ></UAvatar>
-                </UDropdownMenu>
+                <div v-if="isLoggedIn">
+                    {{ displayName }}
+                    <UDropdownMenu :items="items">
+                        <UAvatar :src="displayAvatar" />
+                    </UDropdownMenu>
+                </div>
             </ClientOnly>
         </div>
     </header>

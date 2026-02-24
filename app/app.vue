@@ -1,10 +1,4 @@
-<script setup lang="ts">
-const { initUser } = useUser()
-
-onMounted(async () => {
-    await initUser()
-})
-</script>
+<script setup lang="ts"></script>
 
 <template>
     <UToaster>

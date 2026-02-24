@@ -4,7 +4,7 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 
 const { toastError, toastSuccess } = useAppToast()
 const supabase = useSupabaseClient()
-const { profile, refreshUser } = useUser()
+const { fullName, email, refreshUser } = useUser()
 
 const schema = z.object({
     name: z.string().min(2, 'Name must be at least 2 characters long').optional(),
@@ -13,14 +13,16 @@ const schema = z.object({
 
 type Schema = z.output<typeof schema>
 
-const state = reactive<Partial<Schema>>({ name: undefined, email: undefined })
+const state = reactive<Partial<Schema>>({
+    name: fullName.value ?? undefined,
+    email: email.value ?? undefined,
+})
 
-const hydrateUser = () => {
-    state.name = profile.value?.user_metadata?.full_name ?? undefined
-    state.email = profile.value?.email ?? undefined
-}
-
-watch(profile, hydrateUser, { immediate: true })
+// keep form in sync (SPA case where user data loads after component mounts)
+// watch([fullName, email], () => {
+//   state.name = fullName.value ?? undefined;
+//   state.email = email.value ?? undefined;
+// });
 
 const pending = ref(false)
 
@@ -41,7 +43,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         }
 
         await refreshUser()
-        hydrateUser()
 
         toastSuccess({
             title: 'Success',

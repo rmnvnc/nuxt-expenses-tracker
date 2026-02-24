@@ -1,29 +1,40 @@
+import type { User } from '@supabase/supabase-js'
+import type { TransactionViewOption } from '~/constants'
+
+interface UserMetadata {
+    full_name?: string
+    avatar_url?: string
+    preference?: {
+        transaction_view?: TransactionViewOption
+    }
+}
+
+interface AppUser extends Omit<User, 'user_metadata'> {
+    user_metadata: UserMetadata
+}
+
 export const useUser = () => {
     const supabase = useSupabaseClient()
-    const profile = useState('user-profile', () => null as Awaited<ReturnType<typeof supabase.auth.getUser>>['data']['user'])
-    const initialized = useState('user-initialized', () => false)
+    const user = useSupabaseUser()
+
+    const profile = computed(() => user.value as AppUser | null)
+    const fullName = computed(() => profile.value?.user_metadata?.full_name ?? null)
+    const email = computed(() => profile.value?.email ?? null)
+    const avatarUrl = computed(() => profile.value?.user_metadata.avatar_url ?? null)
+    const isLoggedIn = computed(() => !!profile.value)
 
     const refreshUser = async () => {
-        const { data, error } = await supabase.auth.getUser()
-        if (error) {
-            throw error
-        }
-
-        profile.value = data.user
-        initialized.value = true
+        const { data, error } = await supabase.auth.refreshSession()
+        if (error) throw error
         return data.user
-    }
-
-    const initUser = async () => {
-        if (initialized.value) {
-            return profile.value
-        }
-        return await refreshUser()
     }
 
     return {
         profile,
+        fullName,
+        email,
+        avatarUrl,
+        isLoggedIn,
         refreshUser,
-        initUser,
     }
 }
