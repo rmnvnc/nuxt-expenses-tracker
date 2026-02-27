@@ -63,7 +63,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     >
         <UFormField
             label="Transaction view"
-            name="transactionVie"
+            name="transactionView"
         >
             <USelect
                 v-model="state.transactionView"
