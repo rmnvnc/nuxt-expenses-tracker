@@ -2,7 +2,7 @@
 const { isLoggedIn } = useUser()
 
 const route = useRoute()
-const isHome = computed(() => route.path === '/')
+const isDashboard = computed(() => route.path.startsWith('/dashboard'))
 </script>
 
 <template>
@@ -10,7 +10,7 @@ const isHome = computed(() => route.path === '/')
         <AppHeader />
         <main>
             <div
-                v-if="!isHome && !isLoggedIn"
+                v-if="isDashboard && !isLoggedIn"
                 class="flex justify-center items-center h-64"
             >
                 <UIcon
