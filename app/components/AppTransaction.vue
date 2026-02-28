@@ -63,27 +63,23 @@ const items = [
     ],
 ]
 
-const icon = computed(() =>
-    isIncome.value ? 'heroicons:arrow-trending-up' : 'heroicons:arrow-trending-down'
-)
+const icon = computed(() => (isIncome.value ? 'ph:arrow-up-bold' : 'ph:arrow-down-bold'))
 
-const iconColor = computed(() => (isIncome.value ? 'green' : 'red'))
+const textColor = computed(() => (isIncome.value ? 'text-income' : 'text-expense'))
 </script>
 
 <template>
-    <div
-        class="grid grid-cols-3 py-4 border-b border-gray-200 dark:border-gray-800 text-gray-900 dark:text-gray-100"
-    >
+    <div class="grid grid-cols-3 py-4 border-b border-default">
         <div class="flex items-center justify-between space-x-4 col-span-2">
             <div class="flex items-center space-x-1">
-                <div>
+                <div class="flex">
                     <UIcon
                         :name="icon"
                         class="w-6 h-6"
-                        :class="iconColor"
+                        :class="textColor"
                     />
                 </div>
-                <div>{{ transaction.description }}</div>
+                <p>{{ transaction.description }}</p>
             </div>
             <div>
                 <UBadge
@@ -94,7 +90,11 @@ const iconColor = computed(() => (isIncome.value ? 'green' : 'red'))
             </div>
         </div>
         <div class="flex items-center justify-end space-x-2">
-            <div>{{ currency }}</div>
+            <span
+                class="amount"
+                :class="textColor"
+                ><template v-if="!isIncome">-</template>{{ currency }}</span
+            >
             <div>
                 <UDropdownMenu :items="items">
                     <UButton
@@ -108,14 +108,3 @@ const iconColor = computed(() => (isIncome.value ? 'green' : 'red'))
         </div>
     </div>
 </template>
-
-<style lang="css" scoped>
-@reference "@/assets/css/main.css";
-
-.green {
-    @apply text-green-600 dark:text-green-400;
-}
-.red {
-    @apply text-red-600 dark:text-red-400;
-}
-</style>

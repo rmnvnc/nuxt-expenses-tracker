@@ -1,18 +1,112 @@
 @import 'tailwindcss';
 @import '@nuxt/ui';
 
-@theme static {
-    --font-sans: 'Inter', sans-serif;
+@reference "tailwindcss";
 
-    --color-green-50: #effdf5;
-    --color-green-100: #d9fbe8;
-    --color-green-200: #b3f5d1;
-    --color-green-300: #75edae;
-    --color-green-400: #00dc82;
-    --color-green-500: #00c16a;
-    --color-green-600: #00a155;
-    --color-green-700: #007f45;
-    --color-green-800: #016538;
-    --color-green-900: #0a5331;
-    --color-green-950: #052e16;
+@theme static {
+    --font-display: 'DM Serif Display', serif; /* page titles, hero text */
+    --font-sans: 'DM Sans', sans-serif; /* all UI text */
+    --font-mono: 'DM Mono', monospace; /* all currency amounts */
+
+    --color-bg: #0d0f14;
+    --color-surface: #161922;
+    --color-surface2: #1c2130;
+    --color-border: #252a35;
+    --color-border2: #303848;
+    --color-text: #e8eaf0;
+    --color-muted: #6b7280;
+    --color-muted2: #9ca3af;
+    /* brand — all UI actions */
+    --color-brand-50: #eef2ff;
+    --color-brand-100: #e0e7ff;
+    --color-brand-200: #c7d2fe;
+    --color-brand-300: #a5b4fc;
+    --color-brand-400: #818cf8;
+    --color-brand-500: #6366f1;
+    --color-brand-600: #4f46e5;
+    --color-brand-700: #4338ca;
+    --color-brand-800: #3730a3;
+    --color-brand-900: #312e81;
+    --color-brand-950: #1e1b4b;
+    --color-brand-dim: rgba(129, 140, 248, 0.1);
+    --color-brand-border: rgba(129, 140, 248, 0.28);
+    /* semantic — financial data only */
+    --color-income: #22d3a5;
+    --color-expense: #f87171;
+    --color-saving: var(--color-brand-400);
+    --color-invest: #fbbf24;
+    /* categories */
+    --color-category-food: #f97316;
+    --color-category-housing: #6366f1;
+    --color-category-car: #64748b;
+    --color-category-entertainment: #ec4899;
+    --color-category-income: var(--color-income);
+    --color-category-saving: #3b82f6;
+    --color-category-investment: #8b5cf6;
+}
+
+@layer base {
+    body {
+        @apply font-sans;
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply font-display text-text;
+        line-height: 1.15;
+        letter-spacing: 0.04em;
+    }
+
+    h1,
+    .h1 {
+        @apply text-4xl;
+    }
+    h2,
+    .h2 {
+        @apply text-3xl;
+    }
+    h3,
+    .h3 {
+        @apply text-2xl;
+    }
+    h4,
+    .h4 {
+        @apply text-xl;
+    }
+
+    p {
+        @apply font-sans text-muted2;
+        line-height: 1.7;
+    }
+}
+
+@layer utilities {
+    .amount {
+        @apply font-mono font-medium;
+        font-variant-numeric: tabular-nums;
+    }
+    .label {
+        @apply text-xs font-semibold uppercase text-muted2;
+        letter-spacing: 0.14em;
+    }
+}
+
+:root,
+.dark {
+    --ui-primary: var(--color-brand-500);
+    --ui-text: var(--color-muted2);
+    --ui-bg: var(--color-bg);
+    --ui-border: var(--color-border);
+    --ui-muted: var(--color-border2);
+    --ui-bg-elevated: var(--color-border);
+    --ui-text-highlighted: var(--ui-text);
+    --ui-border-accented: var(--ui-muted);
+    --ui-error: var(--color-error-400);
+    --ui-success: var(--color-success-400);
 }
