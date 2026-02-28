@@ -14,7 +14,7 @@ const isHome = computed(() => route.path === '/')
                 class="flex justify-center items-center h-64"
             >
                 <UIcon
-                    name="heroicons:arrow-path"
+                    name="ph:arrows-clockwise-light"
                     class="w-8 h-8 animate-spin text-gray-400"
                 />
             </div>

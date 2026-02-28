@@ -15,8 +15,6 @@
         "seed": "node seed.mjs"
     },
     "dependencies": {
-        "@iconify-json/lucide": "^1.2.90",
-        "@iconify-json/simple-icons": "^1.2.70",
         "@nuxt/ui": "^4.4.0",
         "@nuxtjs/supabase": "2.0.3",
         "date-fns": "^4.1.0",
@@ -26,6 +24,7 @@
     },
     "devDependencies": {
         "@faker-js/faker": "^10.3.0",
+        "@iconify-json/ph": "^1.2.2",
         "@nuxt/eslint": "^1.15.1",
         "@nuxt/hints": "1.0.0-alpha.5",
         "@supabase/supabase-js": "^2.95.3",

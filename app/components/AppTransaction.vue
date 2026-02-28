@@ -48,14 +48,14 @@ const items = [
     [
         {
             label: 'Edit',
-            icon: 'heroicons:pencil-square',
+            icon: 'ph:note-pencil',
             onSelect() {
                 console.log('Edit')
             },
         },
         {
             label: 'Delete',
-            icon: 'heroicons:x-mark',
+            icon: 'ph:trash',
             onSelect() {
                 deleteTransaction()
             },
@@ -98,7 +98,7 @@ const textColor = computed(() => (isIncome.value ? 'text-income' : 'text-expense
             <div>
                 <UDropdownMenu :items="items">
                     <UButton
-                        icon="heroicons:ellipsis-vertical-16-solid"
+                        icon="ph:dots-three-outline-vertical-fill"
                         color="neutral"
                         variant="ghost"
                         :loading="isLoading"

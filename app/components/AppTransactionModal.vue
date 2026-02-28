@@ -138,7 +138,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                         v-model="state.created_at"
                         type="date"
                         placeholder="Transaction date"
-                        icon="heroicons:calendar-days"
+                        trailing-icon="ph:calendar-blank"
                     />
                 </UFormField>
                 <UFormField

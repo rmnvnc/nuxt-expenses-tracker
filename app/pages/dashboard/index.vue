@@ -44,7 +44,6 @@ const refresh = async () => {
         <h1 class="text-4xl font-extrabold">Summary</h1>
         <div>
             <USelect
-                variant="outline"
                 v-model="selectedView"
                 :items="transactionViewOptions"
             />
@@ -84,7 +83,7 @@ const refresh = async () => {
         </div>
         <div>
             <UButton
-                icon="heroicons:plus-circle"
+                icon="ph:plus-circle"
                 color="primary"
                 label="Add"
                 @click="isOpen = true"
