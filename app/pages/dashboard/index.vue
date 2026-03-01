@@ -26,13 +26,13 @@ const {
         expenseTotal,
     },
     pending: pendingCurrent,
-} = useFetchTransactions(current)
+} = useFetchTransactions(current, selectedView, 'current')
 
 const {
     transactions: { incomeTotal: prevIncomeTotal, expenseTotal: prevExpenseTotal },
     pending: pendingPrevious,
     refresh: refreshPrevious,
-} = useFetchTransactions(previous)
+} = useFetchTransactions(previous, selectedView, 'previous')
 
 const refresh = async () => {
     await Promise.all([refreshCurrent(), refreshPrevious()])

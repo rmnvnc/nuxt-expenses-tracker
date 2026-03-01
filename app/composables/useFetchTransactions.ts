@@ -4,21 +4,34 @@ type Transaction = Database['public']['Tables']['transactions']['Row']
 type DateKey = `${number}-${number}-${number}`
 type GroupedTransactions = Record<DateKey, Transaction[]>
 
-export const useFetchTransactions = (period: Ref<{ from: Date; to: Date }>) => {
+export const useFetchTransactions = (
+    period: Ref<{ from: Date; to: Date }>,
+    selectedView: MaybeRef<string>,
+    scope: 'current' | 'previous'
+) => {
     const supabase = useSupabaseClient<Database>()
+
+    const fromIso = computed(() => period.value.from.toISOString())
+    const toIso = computed(() => period.value.to.toISOString())
+    const fromKey = computed(() => fromIso.value.slice(0, 10))
+    const toKey = computed(() => toIso.value.slice(0, 10))
+    const viewKey = computed(() => unref(selectedView) ?? '')
+    const key = computed(
+        () => `transactions:${scope}:${viewKey.value}:${fromKey.value}:${toKey.value}`
+    )
 
     const {
         data: transactions,
         refresh,
         pending,
     } = useAsyncData<Transaction[]>(
-        `transactions-${period.value.from.toDateString()}-${period.value.to.toDateString()}`,
+        key,
         async () => {
             const { data, error } = await supabase
                 .from('transactions')
                 .select()
-                .gte('created_at', period.value.from.toISOString())
-                .lte('created_at', period.value.to.toISOString())
+                .gte('created_at', fromIso.value)
+                .lte('created_at', toIso.value)
                 .order('created_at', { ascending: false })
                 .limit(100)
 
@@ -26,7 +39,10 @@ export const useFetchTransactions = (period: Ref<{ from: Date; to: Date }>) => {
 
             return data
         },
-        { default: () => [], watch: [period] }
+        {
+            default: () => [],
+            watch: [fromKey, toKey, viewKey],
+        }
     )
 
     const stats = computed(() => {
