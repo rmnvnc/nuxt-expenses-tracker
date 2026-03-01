@@ -83,7 +83,7 @@ export const useFetchTransactions = (
         const grouped: GroupedTransactions = {}
 
         for (const transaction of transactions.value) {
-            const date = new Date(transaction.created_at).toISOString().split('T')[0] as DateKey
+            const date = transaction.created_at.slice(0, 10) as DateKey
 
             if (!grouped[date]) {
                 grouped[date] = []
