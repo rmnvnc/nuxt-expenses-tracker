@@ -40,7 +40,10 @@ const items = computed<DropdownMenuItem[][]>(() => [
         <div>
             <ClientOnly>
                 <template #fallback>
-                    <USkeleton class="h-8 w-14" />
+                    <UButton
+                        to="/login"
+                        label="Login"
+                    />
                 </template>
                 <template v-if="isLoggedIn">
                     <UButton

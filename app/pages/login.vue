@@ -19,6 +19,15 @@ const state = reactive<Partial<Schema>>({
     // password: undefined,
 })
 
+const emailInput = useTemplateRef('emailInputRef')
+
+async function resetLogin() {
+    state.email = undefined
+    success.value = false
+    await nextTick() // wait for v-if to swap back to the form
+    emailInput.value?.inputRef?.focus()
+}
+
 const pending = ref(false)
 const success = ref(false)
 
@@ -54,24 +63,42 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         pending.value = false
     }
 }
+
+onMounted(async () => {
+    await nextTick()
+    emailInput.value?.inputRef?.focus()
+})
 </script>
 
 <template>
-    <UForm
-        v-if="!success"
-        :schema="schema"
-        :state="state"
-        class="space-y-4"
-        @submit="onSubmit"
-    >
-        <UFormField
-            label="Email"
-            name="email"
+    <div class="mt-16">
+        <UCard
+            v-if="!success"
+            class="max-w-[350px] m-auto text-center"
         >
-            <UInput v-model="state.email" />
-        </UFormField>
+            <h1 class="text-2xl mb-4">Sign in</h1>
+            <p class="mb-4">We’ll email you a magic link to sign in — no password needed.</p>
+            <UForm
+                :schema="schema"
+                :state="state"
+                class="items-center"
+                @submit="onSubmit"
+            >
+                <UFormField
+                    label="Email"
+                    name="email"
+                    class="m-auto text-left mb-6"
+                >
+                    <UInput
+                        ref="emailInputRef"
+                        v-model="state.email"
+                        class="w-full"
+                        autocomplete="email"
+                        inputmode="email"
+                    />
+                </UFormField>
 
-        <!-- <UFormField
+                <!-- <UFormField
             label="Password"
             name="password"
         >
@@ -81,24 +108,35 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             />
         </UFormField> -->
 
-        <UButton
-            type="submit"
-            :loading="pending"
-            :disabled="pending"
+                <UButton
+                    type="submit"
+                    :loading="pending"
+                    :disabled="pending"
+                    size="xl"
+                    class="mb-4"
+                >
+                    Submit
+                </UButton>
+            </UForm>
+            <p class="text-xs text-gray-500 text-center">
+                By continuing, you agree to our Terms and Privacy Policy.
+            </p>
+        </UCard>
+        <UCard
+            v-else
+            class="text-center max-w-xl m-auto"
         >
-            Submit
-        </UButton>
-    </UForm>
-    <UCard v-else>
-        <div class="text-center">
             <UIcon
                 name="ph:check-circle"
                 class="w-16 h-16 text-green-500 mx-auto mb-4"
             />
-            <h2 class="text-2xl font-bold mb-2">Check your email</h2>
-            <p class="text-gray-600">
-                We've sent you a magic link to sign in. Please check your inbox.
+            <h1 class="text-2xl mb-4">Check your inbox</h1>
+            <p class="mb-4">
+                A magic sign-in link has been sent to <b>{{ state.email }}</b
+                >.<br />If you don’t see it, check your spam or promotions folder.
             </p>
-        </div>
-    </UCard>
+            <p class="mb-4">Not your email? Sign in again with a different address.</p>
+            <UButton @click="resetLogin">Change email</UButton>
+        </UCard>
+    </div>
 </template>
