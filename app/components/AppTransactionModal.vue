@@ -16,7 +16,7 @@ const isOpen = defineModel<boolean>('isOpen', { required: true })
 const defaultSchema = z.object({
     type: z.enum(transactionTypesTuple),
     amount: z.number().positive('Amount needs to be more than 0'),
-    created_at: z.string(),
+    created_at: z.string('Insert transaction date'),
     description: z.string().optional(),
 })
 

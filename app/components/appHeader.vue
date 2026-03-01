@@ -2,26 +2,14 @@
 import type { DropdownMenuItem } from '@nuxt/ui'
 
 const supabase = useSupabaseClient()
-const { fullName, email, avatarUrl, isLoggedIn } = useUser()
+const { fullName, email, isLoggedIn } = useUser()
 
 const displayName = computed(() => fullName.value || email.value || 'User')
-const displayAvatar = computed(
-    () => avatarUrl.value || 'https://avatars.githubusercontent.com/u/81642663?v=4&size=64'
-)
 
 const route = useRoute()
 const isHome = computed(() => route.path === '/')
 
 const items = computed<DropdownMenuItem[][]>(() => [
-    [
-        {
-            label: displayName.value,
-            avatar: {
-                src: displayAvatar.value,
-            },
-            type: 'label',
-        },
-    ],
     [
         {
             label: 'Profile',
@@ -54,7 +42,7 @@ const items = computed<DropdownMenuItem[][]>(() => [
                 <template #fallback>
                     <USkeleton class="h-8 w-14" />
                 </template>
-                <div v-if="isLoggedIn">
+                <template v-if="isLoggedIn">
                     <UButton
                         v-if="isHome"
                         to="/dashboard"
@@ -67,9 +55,9 @@ const items = computed<DropdownMenuItem[][]>(() => [
                         :items="items"
                         class="ml-4"
                     >
-                        <UAvatar :src="displayAvatar" />
+                        <UAvatar :alt="displayName" />
                     </UDropdownMenu>
-                </div>
+                </template>
                 <UButton
                     v-else
                     to="/login"
