@@ -20,7 +20,6 @@ export const useUser = () => {
     const profile = computed(() => user.value as AppUser | null)
     const fullName = computed(() => profile.value?.user_metadata?.full_name ?? null)
     const email = computed(() => profile.value?.email ?? null)
-    const avatarUrl = computed(() => profile.value?.user_metadata.avatar_url ?? null)
     const isLoggedIn = computed(() => !!profile.value)
 
     const refreshUser = async () => {
@@ -33,7 +32,6 @@ export const useUser = () => {
         profile,
         fullName,
         email,
-        avatarUrl,
         isLoggedIn,
         refreshUser,
     }

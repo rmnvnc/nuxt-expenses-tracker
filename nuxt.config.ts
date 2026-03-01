@@ -9,6 +9,10 @@ export default defineNuxtConfig({
 
     css: ['~/assets/css/main.css'],
 
+    ui: {
+        colorMode: false,
+    },
+
     runtimeConfig: {
         public: {
             siteUrl:
@@ -21,7 +25,7 @@ export default defineNuxtConfig({
     srcDir: 'app/',
 
     routeRules: {
-        '/': { ssr: true },
+        '/': { prerender: true },
         '/dashboard': { ssr: false },
         '/dashboard/**': { ssr: false },
         '/login': { ssr: false },

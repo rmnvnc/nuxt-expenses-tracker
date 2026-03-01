@@ -92,7 +92,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     <UCard v-else>
         <div class="text-center">
             <UIcon
-                name="i-heroicons-check-circle"
+                name="ph:check-circle"
                 class="w-16 h-16 text-green-500 mx-auto mb-4"
             />
             <h2 class="text-2xl font-bold mb-2">Check your email</h2>

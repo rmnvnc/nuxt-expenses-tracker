@@ -14,9 +14,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const trendingUp = computed(() => props.amount >= props.lastAmount)
-const icon = computed(() =>
-    trendingUp.value ? 'heroicons:arrow-trending-up' : 'heroicons:arrow-trending-down'
-)
+const icon = computed(() => (trendingUp.value ? 'ph:arrow-up-bold' : 'ph:arrow-down-bold'))
 const { currency } = useCurrency(toRef(() => props.amount))
 
 const percentageTrend = computed(() => {
@@ -26,17 +24,19 @@ const percentageTrend = computed(() => {
 
     return `${Math.abs(Math.round(change))}%`
 })
+
+const textColor = computed(() => (trendingUp.value ? 'text-income' : 'text-expense'))
 </script>
 
 <template>
     <div>
-        <div
-            class="font-bold"
-            :class="{ green: trendingUp, red: !trendingUp }"
-        >
+        <p class="label">
             {{ title }}
-        </div>
-        <div class="text-2xl font-extrabold text-black dark:text-white mb-2">
+        </p>
+        <div
+            class="text-2xl amount mb-2"
+            :class="textColor"
+        >
             <USkeleton
                 v-if="loading"
                 class="h-8 w-full"
@@ -55,23 +55,10 @@ const percentageTrend = computed(() => {
                 <UIcon
                     :name="icon"
                     class="w-6 h-6"
-                    :class="{ green: trendingUp, red: !trendingUp }"
+                    :class="textColor"
                 />
-                <div class="text-gray-500 dark:text-gray-400">
-                    {{ percentageTrend }} vs last period
-                </div>
+                <p>{{ percentageTrend }} vs last period</p>
             </div>
         </div>
     </div>
 </template>
-
-<style lang="css" scoped>
-@reference "@/assets/css/main.css";
-
-.green {
-    @apply text-green-600 dark:text-green-400;
-}
-.red {
-    @apply text-red-600 dark:text-red-400;
-}
-</style>

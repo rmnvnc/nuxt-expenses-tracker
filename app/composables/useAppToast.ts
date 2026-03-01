@@ -12,7 +12,7 @@ export const useAppToast = () => {
             toast.add({
                 title,
                 description,
-                icon: 'heroicons:check-circle',
+                icon: 'ph:check-circle',
                 color: 'success',
             })
         },
@@ -26,7 +26,7 @@ export const useAppToast = () => {
             toast.add({
                 title,
                 description,
-                icon: 'heroicons:exclamation-circle',
+                icon: 'ph:warning-circle-light',
                 color: 'error',
             })
         },

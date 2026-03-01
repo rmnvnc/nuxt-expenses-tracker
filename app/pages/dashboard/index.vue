@@ -26,13 +26,13 @@ const {
         expenseTotal,
     },
     pending: pendingCurrent,
-} = useFetchTransactions(current)
+} = useFetchTransactions(current, selectedView, 'current')
 
 const {
     transactions: { incomeTotal: prevIncomeTotal, expenseTotal: prevExpenseTotal },
     pending: pendingPrevious,
     refresh: refreshPrevious,
-} = useFetchTransactions(previous)
+} = useFetchTransactions(previous, selectedView, 'previous')
 
 const refresh = async () => {
     await Promise.all([refreshCurrent(), refreshPrevious()])
@@ -51,28 +51,24 @@ const refresh = async () => {
     </section>
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sm:gap-16 mb-10">
         <AppTrend
-            color="green"
             title="Income"
             :amount="incomeTotal"
             :last-amount="prevIncomeTotal"
             :loading="isLoading"
         />
         <AppTrend
-            color="red"
             title="Expenses"
             :amount="expenseTotal"
             :last-amount="prevExpenseTotal"
             :loading="isLoading"
         />
         <AppTrend
-            color="green"
             title="Investments"
             :amount="4000"
             :last-amount="3000"
             :loading="isLoading"
         />
         <AppTrend
-            color="green"
             title="Savings"
             :amount="4000"
             :last-amount="5000"
@@ -83,15 +79,12 @@ const refresh = async () => {
     <section class="flex justify-between mb-10">
         <div>
             <h2 class="text-2xl font-extrabold">Transactions</h2>
-            <div class="text-gray-500 dark:text-gray-100">
-                You have {{ incomeCount }} incomes and {{ expenseCount }} expenses this period
-            </div>
+            <p>You have {{ incomeCount }} incomes and {{ expenseCount }} expenses this period</p>
         </div>
         <div>
             <UButton
-                icon="heroicons:plus-circle"
-                color="neutral"
-                variant="outline"
+                icon="ph:plus-circle"
+                color="primary"
                 label="Add"
                 @click="isOpen = true"
             />

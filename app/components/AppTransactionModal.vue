@@ -16,7 +16,7 @@ const isOpen = defineModel<boolean>('isOpen', { required: true })
 const defaultSchema = z.object({
     type: z.enum(transactionTypesTuple),
     amount: z.number().positive('Amount needs to be more than 0'),
-    created_at: z.string(),
+    created_at: z.string('Insert transaction date'),
     description: z.string().optional(),
 })
 
@@ -96,87 +96,82 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         description="Modal for adding transactions"
         scrollable
     >
-        <template #content>
-            <UCard>
-                <template #header>
-                    <h3>Title</h3>
-                </template>
-                <UForm
-                    :state="state"
-                    :schema="schema"
-                    @error="onError"
-                    @submit="onSubmit"
+        <template #body>
+            <UForm
+                :state="state"
+                :schema="schema"
+                @error="onError"
+                @submit="onSubmit"
+            >
+                <UFormField
+                    label="Transaction type"
+                    name="type"
+                    class="mb-4"
+                    :required="true"
                 >
-                    <UFormField
-                        label="Transaction type"
-                        name="type"
-                        class="mb-4"
-                        :required="true"
-                    >
-                        <USelect
-                            v-model="state.type"
-                            :items="transactionTypes"
-                            :ui="{ content: 'min-w-fit' }"
-                            placeholder="Select the transaction type"
-                        />
-                    </UFormField>
-                    <UFormField
-                        label="Amount"
-                        :required="true"
-                        name="amount"
-                        class="mb-4"
-                    >
-                        <UInput
-                            v-model.number="state.amount"
-                            type="number"
-                            placeholder="Amount"
-                        />
-                    </UFormField>
-                    <UFormField
-                        label="Transaction date"
-                        :required="true"
-                        name="created_at"
-                        class="mb-4"
-                    >
-                        <UInput
-                            v-model="state.created_at"
-                            type="date"
-                            placeholder="Transaction date"
-                            icon="heroicons:calendar-days"
-                        />
-                    </UFormField>
-                    <UFormField
-                        label="Description"
-                        name="description"
-                        class="mb-4"
-                        hint="Optional"
-                    >
-                        <UInput
-                            v-model="state.description"
-                            placeholder="Description"
-                        />
-                    </UFormField>
-                    <UFormField
-                        v-if="state.type === 'Expense'"
-                        label="Category"
-                        class="mb-4"
-                        :required="true"
-                        name="category"
-                    >
-                        <USelect
-                            v-model="state.category"
-                            :items="transactionCategories"
-                            :ui="{ content: 'min-w-fit' }"
-                        />
-                    </UFormField>
-                    <UButton
-                        class="mt-4"
-                        type="submit"
-                        :loading="isLoading"
-                        >Submit</UButton
-                    >
-                </UForm>
-            </UCard>
+                    <USelect
+                        v-model="state.type"
+                        :items="transactionTypes"
+                        :ui="{ content: 'min-w-fit' }"
+                        placeholder="Select the transaction type"
+                    />
+                </UFormField>
+                <UFormField
+                    label="Amount"
+                    :required="true"
+                    name="amount"
+                    class="mb-4"
+                >
+                    <UInput
+                        v-model.number="state.amount"
+                        type="number"
+                        placeholder="Amount"
+                    />
+                </UFormField>
+                <UFormField
+                    label="Transaction date"
+                    :required="true"
+                    name="created_at"
+                    class="mb-4"
+                >
+                    <UInput
+                        v-model="state.created_at"
+                        type="date"
+                        placeholder="Transaction date"
+                        trailing-icon="ph:calendar-blank"
+                    />
+                </UFormField>
+                <UFormField
+                    label="Description"
+                    name="description"
+                    class="mb-4"
+                    hint="Optional"
+                >
+                    <UInput
+                        v-model="state.description"
+                        placeholder="Description"
+                    />
+                </UFormField>
+                <UFormField
+                    v-if="state.type === 'Expense'"
+                    label="Category"
+                    class="mb-4"
+                    :required="true"
+                    name="category"
+                >
+                    <USelect
+                        v-model="state.category"
+                        :items="transactionCategories"
+                        :ui="{ content: 'min-w-fit' }"
+                    />
+                </UFormField>
+                <UButton
+                    class="mt-4"
+                    type="submit"
+                    :loading="isLoading"
+                    >Submit</UButton
+                >
+            </UForm>
         </template>
     </UModal>
 </template>
