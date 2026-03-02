@@ -4,7 +4,7 @@
 @reference "tailwindcss";
 
 @theme static {
-    --font-display: 'DM Serif Display', serif; /* page titles, hero text */
+    --font-display: 'Syne', sans-serif; /* page titles, hero text */
     --font-sans: 'DM Sans', sans-serif; /* all UI text */
     --font-mono: 'DM Mono', monospace; /* all currency amounts */
 
@@ -35,6 +35,7 @@
     --color-expense: #f87171;
     --color-saving: var(--color-brand-400);
     --color-invest: #fbbf24;
+
     /* categories */
     --color-category-food: #f97316;
     --color-category-housing: #6366f1;
@@ -53,14 +54,18 @@
     }
 
     h1,
+    .h1,
     h2,
+    .h2,
     h3,
+    .h3,
     h4,
+    .h4,
     h5,
-    h6 {
-        @apply font-display text-text;
-        line-height: 1.15;
-        letter-spacing: 0.04em;
+    .h5,
+    h6,
+    .h6 {
+        @apply font-display font-extrabold;
     }
 
     h1,
@@ -84,6 +89,10 @@
         @apply font-sans text-muted2;
         line-height: 1.7;
     }
+
+    p + p {
+        @apply mb-4;
+    }
 }
 
 @layer utilities {
@@ -100,7 +109,7 @@
 :root,
 .dark {
     --ui-primary: var(--color-brand-500);
-    --ui-text: var(--color-muted2);
+    --ui-text: var(--color-text);
     --ui-bg: var(--color-bg);
     --ui-border: var(--color-border);
     --ui-muted: var(--color-border2);

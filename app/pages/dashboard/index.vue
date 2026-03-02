@@ -41,7 +41,7 @@ const refresh = async () => {
 
 <template>
     <section class="flex items-center justify-between mb-10">
-        <h1 class="text-4xl font-extrabold">Summary</h1>
+        <h1>Summary</h1>
         <div>
             <USelect
                 v-model="selectedView"
@@ -78,7 +78,7 @@ const refresh = async () => {
 
     <section class="flex justify-between mb-10">
         <div>
-            <h2 class="text-2xl font-extrabold">Transactions</h2>
+            <h2>Transactions</h2>
             <p>You have {{ incomeCount }} incomes and {{ expenseCount }} expenses this period</p>
         </div>
         <div>

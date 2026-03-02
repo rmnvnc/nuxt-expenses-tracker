@@ -50,11 +50,11 @@ const textColor = computed(() => (trendingUp.value ? 'text-income' : 'text-expen
             />
             <div
                 v-else
-                class="flex space-x-1"
+                class="flex space-x-1 items-center"
             >
                 <UIcon
                     :name="icon"
-                    class="w-6 h-6"
+                    class="w-4 h-4"
                     :class="textColor"
                 />
                 <p>{{ percentageTrend }} vs last period</p>

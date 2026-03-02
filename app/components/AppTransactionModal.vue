@@ -93,7 +93,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     <UModal
         v-model:open="isOpen"
         title="Add transaction"
-        description="Modal for adding transactions"
         scrollable
     >
         <template #body>
