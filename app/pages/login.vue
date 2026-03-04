@@ -76,7 +76,14 @@ onMounted(async () => {
             v-if="!success"
             class="max-w-[350px] m-auto text-center"
         >
-            <h1 class="text-2xl mb-4">Sign in</h1>
+            <UBadge class="mb-4 aspect-square">
+                <UIcon
+                    name="ph:lock-key"
+                    class="size-8"
+                />
+            </UBadge>
+
+            <h1 class="text-2xl mb-2">Sign in</h1>
             <p class="mb-4">We’ll email you a magic link to sign in — no password needed.</p>
             <UForm
                 :schema="schema"
@@ -87,7 +94,7 @@ onMounted(async () => {
                 <UFormField
                     label="Email"
                     name="email"
-                    class="m-auto text-left mb-6"
+                    class="m-auto text-left mb-4"
                 >
                     <UInput
                         ref="emailInputRef"
