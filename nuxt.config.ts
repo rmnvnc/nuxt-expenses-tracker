@@ -30,6 +30,7 @@ export default defineNuxtConfig({
         '/dashboard/**': { ssr: false },
         '/login': { ssr: false },
         '/confirm': { ssr: false },
+        '/dashboard/settings': { redirect: '/dashboard/settings/profile' },
     },
 
     compatibilityDate: '2025-01-15',

@@ -4,15 +4,11 @@ import type { NavigationMenuItem } from '@nuxt/ui'
 const items = ref<NavigationMenuItem[][]>([
     [
         {
-            label: 'Avatar',
-            to: '/dashboard/settings/avatar',
-        },
-        {
             label: 'Profile',
             to: '/dashboard/settings/profile',
         },
         {
-            label: 'Settings',
+            label: 'Preferences',
             to: '/dashboard/settings/preferences',
         },
     ],

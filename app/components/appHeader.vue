@@ -14,11 +14,12 @@ const items = computed<DropdownMenuItem[][]>(() => [
         {
             label: 'Profile',
             icon: 'ph:user',
+            to: '/dashboard/settings/profile',
         },
         {
-            label: 'Settings',
+            label: 'Preferences',
             icon: 'ph:gear',
-            to: '/dashboard/settings',
+            to: '/dashboard/settings/preferences',
         },
     ],
     [
