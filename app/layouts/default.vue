@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { SpeedInsights } from '@vercel/speed-insights/nuxt'
+import { Analytics } from '@vercel/analytics/nuxt'
+
 const { isLoggedIn } = useUser()
 
 const route = useRoute()
@@ -21,4 +24,6 @@ const isDashboard = computed(() => route.path.startsWith('/dashboard'))
             <slot v-else />
         </main>
     </div>
+    <SpeedInsights />
+    <Analytics />
 </template>
