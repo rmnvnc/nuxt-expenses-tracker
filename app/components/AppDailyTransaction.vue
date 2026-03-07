@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import type { Database } from '~/types/database.types'
-
-type Transaction = Database['public']['Tables']['transactions']['Row']
+import type { Transaction } from '~/types/transaction.types'
 
 const props = defineProps<{
     date: string
@@ -11,7 +9,7 @@ const props = defineProps<{
 const sum = computed(() =>
     props.transactions.reduce(
         (acc, transaction) =>
-            transaction.type === 'Income'
+            transaction.type.name === 'Income'
                 ? (acc += transaction.amount ?? 0)
                 : (acc -= transaction.amount ?? 0),
         0

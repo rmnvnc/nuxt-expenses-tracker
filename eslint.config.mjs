@@ -4,6 +4,9 @@ import eslintConfigPrettier from 'eslint-config-prettier/flat'
 
 export default withNuxt([
     {
+        ignores: ['app/types/database.types.ts'],
+    },
+    {
         rules: {
             // formatting nech rieši Prettier
             '@stylistic/indent': 'off',

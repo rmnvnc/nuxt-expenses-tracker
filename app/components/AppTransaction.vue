@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { Database } from '~/types/database.types'
-
-type Transaction = Database['public']['Tables']['transactions']['Row']
+import type { Transaction } from '~/types/transaction.types'
 
 const supabase = useSupabaseClient<Database>()
 
@@ -13,7 +12,7 @@ const emit = defineEmits(['deleted'])
 
 const { currency } = useCurrency(computed(() => props.transaction.amount ?? 0))
 
-const isIncome = computed(() => props.transaction.type === 'Income')
+const isIncome = computed(() => props.transaction.type.name === 'Income')
 
 const isLoading = ref(false)
 
@@ -85,7 +84,7 @@ const textColor = computed(() => (isIncome.value ? 'text-income' : 'text-expense
                 <UBadge
                     v-if="transaction.category"
                     color="neutral"
-                    >{{ transaction.category }}</UBadge
+                    >{{ transaction.category.name }}</UBadge
                 >
             </div>
         </div>
