@@ -1,6 +1,6 @@
+import type { Transaction } from '~/types/transaction.types'
 import type { Database } from '~/types/database.types'
 
-type Transaction = Database['public']['Tables']['transactions']['Row']
 type DateKey = `${number}-${number}-${number}`
 type GroupedTransactions = Record<DateKey, Transaction[]>
 
@@ -29,7 +29,13 @@ export const useFetchTransactions = (
         async () => {
             const { data, error } = await supabase
                 .from('transactions')
-                .select()
+                .select(
+                    `
+                    *,
+                    type:transaction_types(id, name),
+                    category:transaction_categories(id, name)
+                `
+                )
                 .gte('created_at', fromIso.value)
                 .lte('created_at', toIso.value)
                 .order('created_at', { ascending: false })
@@ -37,7 +43,7 @@ export const useFetchTransactions = (
 
             if (error) return []
 
-            return data
+            return data as Transaction[]
         },
         {
             default: () => [],
@@ -48,11 +54,11 @@ export const useFetchTransactions = (
     const stats = computed(() => {
         return transactions.value.reduce(
             (acc, t) => {
-                if (t.type === 'Income') {
+                if (t.type.name === 'Income') {
                     acc.income.push(t)
                     acc.incomeTotal += t.amount ?? 0
                     acc.incomeCount += 1
-                } else if (t.type === 'Expense') {
+                } else if (t.type.name === 'Expense') {
                     acc.expense.push(t)
                     acc.expenseTotal += t.amount ?? 0
                     acc.expenseCount += 1
