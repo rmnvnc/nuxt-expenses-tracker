@@ -1,2 +1,3 @@
 pnpm-lock.yaml
 **/pnpm-lock.yaml
+app/types/database.types.ts
