@@ -11,8 +11,7 @@
         "lint:fix": "eslint . --fix",
         "typecheck": "nuxt typecheck",
         "format:check": "prettier . --check",
-        "format": "prettier . --write",
-        "seed": "node seed.mjs"
+        "format": "prettier . --write"
     },
     "dependencies": {
         "@nuxt/ui": "^4.5.0",

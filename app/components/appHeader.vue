@@ -8,6 +8,7 @@ const displayName = computed(() => fullName.value || email.value || 'User')
 
 const route = useRoute()
 const isHome = computed(() => route.path === '/')
+const isDashboard = computed(() => route.path.startsWith('/dashboard'))
 
 const items = computed<DropdownMenuItem[][]>(() => [
     [
@@ -38,12 +39,13 @@ const items = computed<DropdownMenuItem[][]>(() => [
 <template>
     <header class="flex justify-between items-center my-5">
         <NuxtLink
-            to="/dashboard"
+            :to="isDashboard ? '/dashboard' : '/'"
             class="flex items-center gap-3 font-sans font-bold text-2xl"
         >
             <img
                 src="/images/finflo-logo.svg"
                 class="w-10 h-10"
+                alt="Finflo logo"
             />
             Finflo
         </NuxtLink>
