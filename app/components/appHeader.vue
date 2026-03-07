@@ -37,7 +37,16 @@ const items = computed<DropdownMenuItem[][]>(() => [
 
 <template>
     <header class="flex justify-between items-center my-5">
-        <NuxtLink to="/dashboard">Finance tracker</NuxtLink>
+        <NuxtLink
+            to="/dashboard"
+            class="flex items-center gap-3 font-sans font-bold text-2xl"
+        >
+            <img
+                src="/images/finflo-logo.svg"
+                class="w-10 h-10"
+            />
+            Finflo
+        </NuxtLink>
         <div>
             <ClientOnly>
                 <template #fallback>
