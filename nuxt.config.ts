@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    modules: ['@nuxt/eslint', '@nuxt/hints', '@nuxt/ui', '@nuxtjs/supabase'],
+    modules: ['@nuxt/eslint', '@nuxt/hints', '@nuxt/ui', '@nuxtjs/turnstile', '@nuxtjs/supabase'],
     ssr: true,
 
     devtools: {
@@ -75,5 +75,9 @@ export default defineNuxtConfig({
             exclude: ['/', '/login', '/confirm'],
             saveRedirectToCookie: true,
         },
+    },
+
+    turnstile: {
+        siteKey: process.env.NUXT_PUBLIC_TURNSTILE_SITE_KEY,
     },
 })

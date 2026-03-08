@@ -5,6 +5,7 @@ import { useSupabaseClient } from '#imports'
 
 definePageMeta({ middleware: 'guest' })
 
+const captchaToken = ref('')
 const supabase = useSupabaseClient()
 const config = useRuntimeConfig()
 const schema = z.object({
@@ -23,6 +24,7 @@ const emailInput = useTemplateRef('emailInputRef')
 
 async function resetLogin() {
     state.email = undefined
+    captchaToken.value = ''
     success.value = false
     await nextTick() // wait for v-if to swap back to the form
     emailInput.value?.inputRef?.focus()
@@ -44,10 +46,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             email: event.data.email,
             options: {
                 emailRedirectTo: `${config.public.siteUrl}/confirm`,
+                captchaToken: captchaToken.value,
             },
         })
 
         if (error) {
+            captchaToken.value = ''
             toastError({
                 title: 'Error authenticating',
                 description: error.message,
@@ -114,7 +118,10 @@ onMounted(async () => {
                 type="password"
             />
         </UFormField> -->
-
+                <NuxtTurnstile
+                    v-model="captchaToken"
+                    class="mb-4"
+                />
                 <UButton
                     type="submit"
                     :loading="pending"
