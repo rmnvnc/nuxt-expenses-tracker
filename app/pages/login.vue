@@ -48,6 +48,15 @@ const success = ref(false)
 
 const { toastError, toastSuccess } = useAppToast()
 
+const signInWithProvider = async (provider: 'google' | 'discord') => {
+    await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+            redirectTo: `${config.public.siteUrl}/confirm`,
+        },
+    })
+}
+
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     success.value = false
     pending.value = true
@@ -114,7 +123,29 @@ onUnmounted(() => {
                 />
             </UBadge>
 
-            <h1 class="text-2xl mb-2">Sign in</h1>
+            <h1 class="text-2xl mb-4">Sign in</h1>
+
+            <UButton
+                icon="ph:google-logo-bold"
+                variant="outline"
+                class="w-full justify-center mb-2"
+                size="xl"
+                @click="signInWithProvider('google')"
+                >Google</UButton
+            >
+
+            <UButton
+                icon="ph:discord-logo-bold"
+                variant="outline"
+                class="w-full justify-center"
+                size="xl"
+                @click="signInWithProvider('discord')"
+                >Discord</UButton
+            >
+            <USeparator
+                label="or"
+                class="my-4"
+            />
             <p class="mb-4">We’ll email you a magic link to sign in — no password needed.</p>
             <UForm
                 :schema="schema"
