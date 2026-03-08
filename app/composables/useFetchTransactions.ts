@@ -62,6 +62,10 @@ export const useFetchTransactions = (
                     acc.expense.push(t)
                     acc.expenseTotal += t.amount ?? 0
                     acc.expenseCount += 1
+                } else if (t.type.name === 'Investment') {
+                    acc.investmentTotal += t.amount ?? 0
+                } else if (t.type.name === 'Saving') {
+                    acc.savingTotal += t.amount ?? 0
                 }
                 return acc
             },
@@ -70,6 +74,8 @@ export const useFetchTransactions = (
                 expense: [] as Transaction[],
                 incomeTotal: 0,
                 expenseTotal: 0,
+                investmentTotal: 0,
+                savingTotal: 0,
                 incomeCount: 0,
                 expenseCount: 0,
             }
@@ -84,6 +90,9 @@ export const useFetchTransactions = (
 
     const incomeTotal = computed(() => stats.value.incomeTotal)
     const expenseTotal = computed(() => stats.value.expenseTotal)
+
+    const investmentTotal = computed(() => stats.value.investmentTotal)
+    const savingTotal = computed(() => stats.value.savingTotal)
 
     const transactionsGroupByDate = computed(() => {
         const grouped: GroupedTransactions = {}
@@ -113,6 +122,8 @@ export const useFetchTransactions = (
             expenseCount,
             incomeTotal,
             expenseTotal,
+            investmentTotal,
+            savingTotal,
         },
         pending,
         refresh,

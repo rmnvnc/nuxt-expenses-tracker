@@ -30,20 +30,29 @@
     --color-brand-950: #1e1b4b;
     --color-brand-dim: rgba(129, 140, 248, 0.1);
     --color-brand-border: rgba(129, 140, 248, 0.28);
+
     /* semantic — financial data only */
     --color-income: #22d3a5;
+    --color-income-soft: color-mix(in srgb, var(--color-income) 7%, transparent);
+    --color-income-border: color-mix(in srgb, var(--color-income) 24%, transparent);
+
     --color-expense: #f87171;
+    --color-expense-soft: color-mix(in srgb, var(--color-expense) 7%, transparent);
+    --color-expense-border: color-mix(in srgb, var(--color-expense) 24%, transparent);
+
     --color-saving: var(--color-brand-400);
-    --color-invest: #fbbf24;
+    --color-saving-soft: color-mix(in srgb, var(--color-saving) 7%, transparent);
+    --color-saving-border: color-mix(in srgb, var(--color-saving) 24%, transparent);
+
+    --color-investment: #fbbf24;
+    --color-investment-soft: color-mix(in srgb, var(--color-investment) 7%, transparent);
+    --color-investment-border: color-mix(in srgb, var(--color-investment) 24%, transparent);
 
     /* categories */
     --color-category-food: #f97316;
     --color-category-housing: #6366f1;
     --color-category-car: #64748b;
     --color-category-entertainment: #ec4899;
-    --color-category-income: var(--color-income);
-    --color-category-saving: #3b82f6;
-    --color-category-investment: #8b5cf6;
 }
 
 @layer base {
