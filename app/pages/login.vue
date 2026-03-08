@@ -82,6 +82,14 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     }
 }
 
+const {
+    data: { subscription },
+} = supabase.auth.onAuthStateChange((event) => {
+    if (event === 'SIGNED_IN') {
+        navigateTo('/dashboard')
+    }
+})
+
 onMounted(async () => {
     await nextTick()
     emailInput.value?.inputRef?.focus()
@@ -89,6 +97,7 @@ onMounted(async () => {
 
 onUnmounted(() => {
     if (cooldownInterval) clearInterval(cooldownInterval)
+    subscription.unsubscribe()
 })
 </script>
 
