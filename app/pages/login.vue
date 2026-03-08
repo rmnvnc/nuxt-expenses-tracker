@@ -5,6 +5,19 @@ import { useSupabaseClient } from '#imports'
 
 definePageMeta({ middleware: 'guest' })
 
+const cooldown = ref(0)
+let cooldownInterval: ReturnType<typeof setInterval> | null = null
+function startCooldown(seconds = 15) {
+    cooldown.value = seconds
+    cooldownInterval = setInterval(() => {
+        cooldown.value--
+        if (cooldown.value <= 0) {
+            clearInterval(cooldownInterval!)
+            cooldownInterval = null
+        }
+    }, 1000)
+}
+
 const captchaToken = ref('')
 const supabase = useSupabaseClient()
 const config = useRuntimeConfig()
@@ -62,6 +75,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                 description: 'The form has been submitted.',
             })
             success.value = true
+            startCooldown()
         }
     } finally {
         pending.value = false
@@ -71,6 +85,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 onMounted(async () => {
     await nextTick()
     emailInput.value?.inputRef?.focus()
+})
+
+onUnmounted(() => {
+    if (cooldownInterval) clearInterval(cooldownInterval)
 })
 </script>
 
@@ -125,11 +143,11 @@ onMounted(async () => {
                 <UButton
                     type="submit"
                     :loading="pending"
-                    :disabled="pending"
+                    :disabled="pending || cooldown > 0"
                     size="xl"
                     class="mb-4"
                 >
-                    Submit
+                    {{ cooldown > 0 ? `Wait ${cooldown}s` : 'Submit' }}
                 </UButton>
             </UForm>
             <p class="text-xs text-gray-500 text-center">
@@ -150,7 +168,11 @@ onMounted(async () => {
                 >.<br />If you don’t see it, check your spam or promotions folder.
             </p>
             <p class="mb-4">Not your email? Sign in again with a different address.</p>
-            <UButton @click="resetLogin">Change email</UButton>
+            <UButton
+                :disabled="pending || cooldown > 0"
+                @click="resetLogin"
+                >{{ cooldown > 0 ? `Wait ${cooldown}s` : 'Change email' }}</UButton
+            >
         </UCard>
     </div>
 </template>
