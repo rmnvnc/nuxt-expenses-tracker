@@ -1,6 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
+    <NuxtPwaManifest />
     <UToaster>
         <NuxtLayout>
             <NuxtPage />

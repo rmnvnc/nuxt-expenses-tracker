@@ -1,6 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    modules: ['@nuxt/eslint', '@nuxt/hints', '@nuxt/ui', '@nuxtjs/turnstile', '@nuxtjs/supabase'],
+    modules: [
+        '@nuxt/eslint',
+        '@nuxt/hints',
+        '@nuxt/ui',
+        '@nuxtjs/turnstile',
+        '@nuxtjs/supabase',
+        '@vite-pwa/nuxt',
+    ],
     ssr: true,
 
     devtools: {
@@ -24,7 +31,7 @@ export default defineNuxtConfig({
                     sizes: '180x180',
                     href: '/favicons/apple-touch-icon.png',
                 },
-                { rel: 'manifest', href: '/favicons/site.webmanifest' },
+                // { rel: 'manifest', href: '/favicons/site.webmanifest' },
             ],
             meta: [{ name: 'apple-mobile-web-app-title', content: 'Finflo' }],
         },
@@ -64,6 +71,39 @@ export default defineNuxtConfig({
                 commaDangle: 'never',
                 braceStyle: '1tbs',
             },
+        },
+    },
+    pwa: {
+        registerType: 'autoUpdate',
+        srcDir: 'app/',
+        devOptions: {
+            enabled: true,
+            type: 'module',
+        },
+        manifest: {
+            name: 'Finflo',
+            short_name: 'Finflo',
+            start_url: '/dashboard',
+            theme_color: '#6366f1',
+            background_color: '#0d0f14',
+            display: 'standalone',
+            icons: [
+                {
+                    src: '/favicons/web-app-manifest-192x192.png',
+                    sizes: '192x192',
+                    type: 'image/png',
+                    purpose: 'any maskable',
+                },
+                {
+                    src: '/favicons/web-app-manifest-512x512.png',
+                    sizes: '512x512',
+                    type: 'image/png',
+                    purpose: 'any maskable',
+                },
+            ],
+        },
+        workbox: {
+            navigateFallback: null,
         },
     },
 
