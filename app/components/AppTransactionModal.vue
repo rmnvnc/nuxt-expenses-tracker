@@ -4,8 +4,6 @@ import type { Database } from '~/types/database.types'
 import type { TransactionType, TransactionCategory } from '~/types/transaction.types'
 import * as z from 'zod'
 
-type Schema = z.output<typeof schema>
-
 const supabase = useSupabaseClient<Database>()
 const { toastError, toastSuccess } = useAppToast()
 
@@ -17,13 +15,18 @@ const expenseTypeId = computed(() => types.value?.find((t) => t.name === 'Expens
 
 const isExpense = computed(() => state.value.type_id === expenseTypeId.value)
 
-const schema = z.object({
-    type_id: z.number({ error: 'Select a transaction type' }),
-    amount: z.number().positive('Amount needs to be more than 0'),
-    created_at: z.string({ error: 'Insert transaction date' }),
-    description: z.string().optional(),
-    category_id: z.number().optional(),
-})
+const buildSchema = (isExpense: boolean) =>
+    z.object({
+        type_id: z.number({ error: 'Select a transaction type' }),
+        amount: z.number().positive('Amount needs to be more than 0'),
+        created_at: z.string({ error: 'Insert transaction date' }),
+        description: z.string().optional(),
+        category_id: isExpense ? z.number({ error: 'Select a category' }) : z.number().optional(),
+    })
+
+type Schema = z.output<ReturnType<typeof buildSchema>>
+
+const schema = computed(() => buildSchema(isExpense.value))
 
 type FormState = {
     type_id: TransactionType['id'] | undefined
