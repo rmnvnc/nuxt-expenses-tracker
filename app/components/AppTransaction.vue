@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { variantStyleMap } from '~/constants'
 import type { Database } from '~/types/database.types'
 import type { Transaction } from '~/types/transaction.types'
 
@@ -12,8 +13,8 @@ const emit = defineEmits(['deleted'])
 
 const { currency } = useCurrency(computed(() => props.transaction.amount ?? 0))
 
-const isIncome = computed(() => props.transaction.type.name === 'Income')
-
+// const isIncome = computed(() => props.transaction.type.name === 'Income')
+const currentStyle = computed(() => variantStyleMap[props.transaction.type.name])
 const isLoading = ref(false)
 
 const { toastError, toastSuccess } = useAppToast()
@@ -45,13 +46,13 @@ const deleteTransaction = async () => {
 
 const items = [
     [
-        {
-            label: 'Edit',
-            icon: 'ph:note-pencil',
-            onSelect() {
-                console.log('Edit')
-            },
-        },
+        // {
+        //     label: 'Edit',
+        //     icon: 'ph:note-pencil',
+        //     onSelect() {
+        //         console.log('Edit')
+        //     },
+        // },
         {
             label: 'Delete',
             icon: 'ph:trash',
@@ -62,19 +63,19 @@ const items = [
     ],
 ]
 
-const icon = computed(() => (isIncome.value ? 'ph:arrow-up-bold' : 'ph:arrow-down-bold'))
+const icon = computed(() => currentStyle.value.icon)
 
-const textColor = computed(() => (isIncome.value ? 'text-income' : 'text-expense'))
+const textColor = computed(() => currentStyle.value.text)
 </script>
 
 <template>
     <div class="grid grid-cols-3 py-4 border-b border-default">
         <div class="flex items-center justify-between space-x-4 col-span-2">
             <div class="flex items-center space-x-1">
-                <div class="flex">
+                <div class="flex mr-2">
                     <UIcon
                         :name="icon"
-                        class="w-6 h-6"
+                        class="w-5 h-5"
                         :class="textColor"
                     />
                 </div>
@@ -92,7 +93,8 @@ const textColor = computed(() => (isIncome.value ? 'text-income' : 'text-expense
             <span
                 class="amount"
                 :class="textColor"
-                ><template v-if="!isIncome">-</template>{{ currency }}</span
+                ><template v-if="transaction.type.name === 'Expense'">-</template
+                >{{ currency }}</span
             >
             <div>
                 <UDropdownMenu :items="items">

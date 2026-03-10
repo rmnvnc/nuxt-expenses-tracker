@@ -64,8 +64,10 @@ export const useFetchTransactions = (
                     acc.expenseCount += 1
                 } else if (t.type.name === 'Investment') {
                     acc.investmentTotal += t.amount ?? 0
+                    acc.expenseTotal += t.amount ?? 0
                 } else if (t.type.name === 'Saving') {
                     acc.savingTotal += t.amount ?? 0
+                    acc.expenseTotal += t.amount ?? 0
                 }
                 return acc
             },

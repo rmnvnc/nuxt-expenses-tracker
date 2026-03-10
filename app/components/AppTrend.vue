@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { TransactionTypeName } from '~/types/transaction.types'
 
+import { variantStyleMap } from '~/constants'
+
 interface Props {
     title?: string
     amount?: number
@@ -16,29 +18,6 @@ const props = withDefaults(defineProps<Props>(), {
     loading: false,
     variant: 'Income',
 })
-
-const variantStyleMap: Record<TransactionTypeName, { text: string; bg: string; border: string }> = {
-    Income: {
-        text: 'text-income',
-        bg: 'bg-income-soft',
-        border: 'ring-income-border',
-    },
-    Expense: {
-        text: 'text-expense',
-        bg: 'bg-expense-soft',
-        border: 'ring-expense-border',
-    },
-    Saving: {
-        text: 'text-saving',
-        bg: 'bg-saving-soft',
-        border: 'ring-saving-border',
-    },
-    Investment: {
-        text: 'text-investment',
-        bg: 'bg-investment-soft',
-        border: 'ring-investment-border',
-    },
-}
 
 const currentStyle = computed(() => variantStyleMap[props.variant])
 const textColor = computed(() => currentStyle.value.text)
