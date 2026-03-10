@@ -24,12 +24,19 @@ const {
         incomeCount,
         expenseCount,
         expenseTotal,
+        investmentTotal,
+        savingTotal,
     },
     pending: pendingCurrent,
 } = useFetchTransactions(current, selectedView, 'current')
 
 const {
-    transactions: { incomeTotal: prevIncomeTotal, expenseTotal: prevExpenseTotal },
+    transactions: {
+        incomeTotal: prevIncomeTotal,
+        expenseTotal: prevExpenseTotal,
+        investmentTotal: prevInvestmentTotal,
+        savingTotal: prevSavingTotal,
+    },
     pending: pendingPrevious,
     refresh: refreshPrevious,
 } = useFetchTransactions(previous, selectedView, 'previous')
@@ -50,30 +57,34 @@ const refresh = async () => {
                 />
             </div>
         </section>
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sm:gap-16 mb-10">
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
             <AppTrend
                 title="Income"
                 :amount="incomeTotal"
                 :last-amount="prevIncomeTotal"
                 :loading="isLoading"
+                variant="Income"
             />
             <AppTrend
                 title="Expenses"
                 :amount="expenseTotal"
                 :last-amount="prevExpenseTotal"
                 :loading="isLoading"
+                variant="Expense"
             />
             <AppTrend
                 title="Investments"
-                :amount="4000"
-                :last-amount="3000"
+                :amount="investmentTotal"
+                :last-amount="prevInvestmentTotal"
                 :loading="isLoading"
+                variant="Investment"
             />
             <AppTrend
                 title="Savings"
-                :amount="4000"
-                :last-amount="5000"
+                :amount="savingTotal"
+                :last-amount="prevSavingTotal"
                 :loading="isLoading"
+                variant="Saving"
             />
         </section>
 

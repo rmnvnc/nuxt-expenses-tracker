@@ -1,9 +1,12 @@
 <script lang="ts" setup>
+import type { TransactionTypeName } from '~/types/transaction.types'
+
 interface Props {
     title?: string
     amount?: number
     lastAmount?: number
     loading?: boolean
+    variant?: TransactionTypeName
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -11,26 +14,89 @@ const props = withDefaults(defineProps<Props>(), {
     amount: 0,
     lastAmount: 0,
     loading: false,
+    variant: 'Income',
 })
 
-const trendingUp = computed(() => props.amount >= props.lastAmount)
-const icon = computed(() => (trendingUp.value ? 'ph:arrow-up-bold' : 'ph:arrow-down-bold'))
+const variantStyleMap: Record<TransactionTypeName, { text: string; bg: string; border: string }> = {
+    Income: {
+        text: 'text-income',
+        bg: 'bg-income-soft',
+        border: 'ring-income-border',
+    },
+    Expense: {
+        text: 'text-expense',
+        bg: 'bg-expense-soft',
+        border: 'ring-expense-border',
+    },
+    Saving: {
+        text: 'text-saving',
+        bg: 'bg-saving-soft',
+        border: 'ring-saving-border',
+    },
+    Investment: {
+        text: 'text-investment',
+        bg: 'bg-investment-soft',
+        border: 'ring-investment-border',
+    },
+}
+
+const currentStyle = computed(() => variantStyleMap[props.variant])
+const textColor = computed(() => currentStyle.value.text)
+const bgColor = computed(() => currentStyle.value.bg)
+const borderColor = computed(() => currentStyle.value.border)
+
+const trend = computed<'up' | 'down' | 'same' | 'none'>(() => {
+    if (props.lastAmount === 0) return 'none'
+    if (props.amount > props.lastAmount) return 'up'
+    if (props.amount < props.lastAmount) return 'down'
+    return 'same'
+})
+
+const trendColor = computed(() => {
+    switch (trend.value) {
+        case 'up':
+            return 'text-income'
+        case 'down':
+            return 'text-expense'
+        case 'same':
+        case 'none':
+            return 'text-muted2'
+        default:
+            return 'text-muted2'
+    }
+})
+
+const icon = computed(() => {
+    switch (trend.value) {
+        case 'up':
+            return 'ph:arrow-up-bold'
+        case 'down':
+            return 'ph:arrow-down-bold'
+        case 'same':
+            return 'ph:equals-bold'
+        case 'none':
+            return 'ph:minus-bold'
+        default:
+            return 'ph:minus-bold'
+    }
+})
+
+const trendLabel = computed(() => {
+    if (trend.value === 'none') return 'No previous data'
+    if (trend.value === 'same') return 'No change vs last period'
+
+    const change = ((props.amount - props.lastAmount!) / props.lastAmount!) * 100
+    const roundedChange = Math.abs(Math.round(change))
+
+    return `${roundedChange}% vs last period`
+})
+
 const { currency } = useCurrency(toRef(() => props.amount))
-
-const percentageTrend = computed(() => {
-    if (props.lastAmount === 0) return 'N/A'
-
-    const change = ((props.amount - props.lastAmount) / props.lastAmount) * 100
-
-    return `${Math.abs(Math.round(change))}%`
-})
-
-const textColor = computed(() => (trendingUp.value ? 'text-income' : 'text-expense'))
 </script>
 
 <template>
-    <div>
-        <p class="label">
+    <UCard :class="[bgColor, borderColor]">
+        <p class="label mb-2">
             {{ title }}
         </p>
         <div
@@ -46,7 +112,7 @@ const textColor = computed(() => (trendingUp.value ? 'text-income' : 'text-expen
         <div>
             <USkeleton
                 v-if="loading"
-                class="h-6 w-full"
+                class="h-[27px] w-full"
             />
             <div
                 v-else
@@ -55,10 +121,10 @@ const textColor = computed(() => (trendingUp.value ? 'text-income' : 'text-expen
                 <UIcon
                     :name="icon"
                     class="w-4 h-4"
-                    :class="textColor"
+                    :class="trendColor"
                 />
-                <p>{{ percentageTrend }} vs last period</p>
+                <p>{{ trendLabel }}</p>
             </div>
         </div>
-    </div>
+    </UCard>
 </template>
