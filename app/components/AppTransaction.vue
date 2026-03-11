@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { variantStyleMap } from '~/constants'
+import { categoryStyleMap, variantStyleMap } from '~/constants'
 import type { Database } from '~/types/database.types'
 import type { Transaction } from '~/types/transaction.types'
 
@@ -14,7 +14,10 @@ const emit = defineEmits(['deleted'])
 const { currency } = useCurrency(computed(() => props.transaction.amount ?? 0))
 
 // const isIncome = computed(() => props.transaction.type.name === 'Income')
-const currentStyle = computed(() => variantStyleMap[props.transaction.type.name])
+const transactionStyle = computed(() => variantStyleMap[props.transaction.type.name])
+const categoryStyle = computed(() =>
+    props.transaction.category?.name ? categoryStyleMap[props.transaction.category.name] : undefined
+)
 const isLoading = ref(false)
 
 const { toastError, toastSuccess } = useAppToast()
@@ -63,8 +66,8 @@ const items = [
     ],
 ]
 
-const icon = computed(() => currentStyle.value.icon)
-const iconColor = computed(() => currentStyle.value.text)
+const icon = computed(() => transactionStyle.value.icon)
+const iconColor = computed(() => transactionStyle.value.text)
 
 const textColor = computed(() =>
     props.transaction.type.name === 'Income' ? 'text-income' : 'text-expense'
@@ -86,9 +89,12 @@ const textColor = computed(() =>
             </div>
             <div>
                 <UBadge
-                    v-if="transaction.category"
-                    color="neutral"
-                    >{{ transaction.category.name }}</UBadge
+                    v-if="categoryStyle"
+                    size="lg"
+                    :icon="categoryStyle.icon"
+                    class="rounded-full gap-2"
+                    :class="[categoryStyle.text, categoryStyle.bg]"
+                    >{{ transaction.category?.name }}</UBadge
                 >
             </div>
         </div>
