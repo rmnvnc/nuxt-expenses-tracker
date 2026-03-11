@@ -64,8 +64,11 @@ const items = [
 ]
 
 const icon = computed(() => currentStyle.value.icon)
+const iconColor = computed(() => currentStyle.value.text)
 
-const textColor = computed(() => currentStyle.value.text)
+const textColor = computed(() =>
+    props.transaction.type.name === 'Income' ? 'text-income' : 'text-expense'
+)
 </script>
 
 <template>
@@ -76,7 +79,7 @@ const textColor = computed(() => currentStyle.value.text)
                     <UIcon
                         :name="icon"
                         class="w-5 h-5"
-                        :class="textColor"
+                        :class="iconColor"
                     />
                 </div>
                 <p>{{ transaction.description }}</p>
