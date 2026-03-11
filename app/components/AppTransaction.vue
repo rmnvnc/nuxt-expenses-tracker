@@ -75,7 +75,7 @@ const textColor = computed(() =>
 </script>
 
 <template>
-    <div class="grid grid-cols-3 py-4 border-b border-default">
+    <div class="grid grid-cols-3 py-4 ml-8">
         <div class="flex items-center justify-between space-x-4 col-span-2">
             <div class="flex items-center space-x-1">
                 <div class="flex mr-2">
@@ -85,9 +85,6 @@ const textColor = computed(() =>
                         :class="iconColor"
                     />
                 </div>
-                <p>{{ transaction.description }}</p>
-            </div>
-            <div>
                 <UBadge
                     v-if="categoryStyle"
                     size="lg"
@@ -102,8 +99,7 @@ const textColor = computed(() =>
             <span
                 class="amount"
                 :class="textColor"
-                ><template v-if="transaction.type.name === 'Expense'">-</template
-                >{{ currency }}</span
+                ><template v-if="transaction.type.name != 'Income'">-</template>{{ currency }}</span
             >
             <div>
                 <UDropdownMenu :items="items">

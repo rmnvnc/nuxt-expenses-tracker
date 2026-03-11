@@ -118,12 +118,14 @@ const refresh = async () => {
                     :date="date"
                     :transactions="transactionsOnDay"
                 />
-                <AppTransaction
-                    v-for="transaction in transactionsOnDay"
-                    :key="transaction.id"
-                    :transaction="transaction"
-                    @deleted="refresh()"
-                />
+                <div class="divide-y divide-default">
+                    <AppTransaction
+                        v-for="transaction in transactionsOnDay"
+                        :key="transaction.id"
+                        :transaction="transaction"
+                        @deleted="refresh()"
+                    />
+                </div>
             </div>
         </section>
         <section v-else>

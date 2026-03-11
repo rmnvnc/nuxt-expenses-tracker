@@ -20,7 +20,7 @@ const { currency } = useCurrency(sum)
 </script>
 
 <template>
-    <div class="grid grid-cols-2 py-4 border-b border-default items-center">
+    <div class="grid grid-cols-2 py-4 border-y border-default items-center">
         <p>{{ date }}</p>
         <div
             class="amount text-right"
