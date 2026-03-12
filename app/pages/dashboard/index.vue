@@ -110,7 +110,7 @@ const refresh = async () => {
         </section>
 
         <section v-if="!isLoading">
-            <div
+            <template
                 v-for="(transactionsOnDay, date) in transactionsGroupByDate"
                 :key="date"
             >
@@ -118,13 +118,15 @@ const refresh = async () => {
                     :date="date"
                     :transactions="transactionsOnDay"
                 />
-                <AppTransaction
-                    v-for="transaction in transactionsOnDay"
-                    :key="transaction.id"
-                    :transaction="transaction"
-                    @deleted="refresh()"
-                />
-            </div>
+                <div class="divide-y divide-default">
+                    <AppTransaction
+                        v-for="transaction in transactionsOnDay"
+                        :key="transaction.id"
+                        :transaction="transaction"
+                        @deleted="refresh()"
+                    />
+                </div>
+            </template>
         </section>
         <section v-else>
             <USkeleton

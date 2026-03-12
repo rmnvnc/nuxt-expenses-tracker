@@ -2,11 +2,11 @@
 
 <template>
     <NuxtPwaManifest />
-    <UToaster>
+    <UApp>
         <NuxtLayout>
             <NuxtPage />
         </NuxtLayout>
-    </UToaster>
+    </UApp>
 </template>
 
 <style>
