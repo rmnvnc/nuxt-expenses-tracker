@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { Transaction } from '~/types/transaction.types'
-import { formatDate } from '~/utils/date'
 
 const props = defineProps<{
     date: DateKey
