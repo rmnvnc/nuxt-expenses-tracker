@@ -1,7 +1,7 @@
 import type { Transaction } from '~/types/transaction.types'
 import type { Database } from '~/types/database.types'
 
-type DateKey = `${number}-${number}-${number}`
+export type DateKey = `${number}-${number}-${number}`
 type GroupedTransactions = Record<DateKey, Transaction[]>
 
 export const useFetchTransactions = (

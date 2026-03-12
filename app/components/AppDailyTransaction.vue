@@ -2,7 +2,7 @@
 import type { Transaction } from '~/types/transaction.types'
 
 const props = defineProps<{
-    date: string
+    date: DateKey
     transactions: Transaction[]
 }>()
 
@@ -20,8 +20,8 @@ const { currency } = useCurrency(sum)
 </script>
 
 <template>
-    <div class="grid grid-cols-2 py-4 border-y border-default items-center">
-        <p>{{ date }}</p>
+    <div class="grid grid-cols-2 py-2 border-y border-default items-center">
+        <p>{{ formatDate(date) }}</p>
         <div
             class="amount text-right"
             :class="sum >= 0 ? 'text-income' : 'text-expense'"
