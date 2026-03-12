@@ -75,42 +75,56 @@ const textColor = computed(() =>
 </script>
 
 <template>
-    <div class="grid grid-cols-3 py-4 ml-8">
-        <div class="flex items-center justify-between space-x-4 col-span-2">
-            <div class="flex items-center space-x-1">
-                <div class="flex mr-2">
-                    <UIcon
-                        :name="icon"
-                        class="w-5 h-5"
-                        :class="iconColor"
-                    />
-                </div>
-                <UBadge
-                    v-if="categoryStyle"
-                    size="lg"
-                    :icon="categoryStyle.icon"
-                    class="rounded-full gap-2"
-                    :class="[categoryStyle.text, categoryStyle.bg]"
-                    >{{ transaction.category?.name }}</UBadge
+    <div class="grid grid-cols-[minmax(0,1fr)_auto] py-2 gap-2">
+        <div class="flex items-center min-w-0">
+            <div
+                class="flex mr-4 shrink-0 p-2 rounded-lg"
+                :class="transactionStyle.bg"
+            >
+                <UIcon
+                    :name="icon"
+                    class="w-5 h-5"
+                    :class="iconColor"
+                />
+            </div>
+
+            <div class="flex flex-col gap-1 min-w-0">
+                <div
+                    v-if="transaction.description"
+                    class="truncate"
                 >
+                    {{ transaction.description }}
+                </div>
+
+                <div v-if="categoryStyle">
+                    <UBadge
+                        size="lg"
+                        :icon="categoryStyle.icon"
+                        class="rounded-full gap-2"
+                        :class="[categoryStyle.text, categoryStyle.bg]"
+                    >
+                        {{ transaction.category?.name }}
+                    </UBadge>
+                </div>
             </div>
         </div>
+
         <div class="flex items-center justify-end space-x-2">
             <span
                 class="amount"
                 :class="textColor"
-                ><template v-if="transaction.type.name != 'Income'">-</template>{{ currency }}</span
             >
-            <div>
-                <UDropdownMenu :items="items">
-                    <UButton
-                        icon="ph:dots-three-outline-vertical-fill"
-                        color="neutral"
-                        variant="ghost"
-                        :loading="isLoading"
-                    />
-                </UDropdownMenu>
-            </div>
+                <template v-if="transaction.type.name != 'Income'">-</template>{{ currency }}
+            </span>
+
+            <UDropdownMenu :items="items">
+                <UButton
+                    icon="ph:dots-three-outline-vertical-fill"
+                    color="neutral"
+                    variant="ghost"
+                    :loading="isLoading"
+                />
+            </UDropdownMenu>
         </div>
     </div>
 </template>
