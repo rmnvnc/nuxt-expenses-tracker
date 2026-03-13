@@ -84,7 +84,7 @@ const { currency } = useCurrency(toRef(() => props.amount))
         >
             <USkeleton
                 v-if="loading"
-                class="h-8 w-full"
+                class="h-8 w-2/3"
             />
             <div v-else>{{ currency }}</div>
         </div>
