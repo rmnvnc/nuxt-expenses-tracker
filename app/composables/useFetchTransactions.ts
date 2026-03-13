@@ -39,7 +39,7 @@ export const useFetchTransactions = (
                 .gte('created_at', fromIso.value)
                 .lte('created_at', toIso.value)
                 .order('created_at', { ascending: false })
-                .limit(100)
+                .limit(300)
 
             if (error) return []
 
