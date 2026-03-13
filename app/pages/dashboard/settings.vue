@@ -16,13 +16,16 @@ const items = ref<NavigationMenuItem[][]>([
 </script>
 
 <template>
-    <div class="grid grid-cols-6 gap-8">
-        <UNavigationMenu
-            orientation="vertical"
-            :items="items"
-        />
-        <div class="col-span-4">
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-6 lg:gap-8">
+        <aside class="lg:col-span-1">
+            <UNavigationMenu
+                orientation="vertical"
+                :items="items"
+            />
+        </aside>
+
+        <main class="lg:col-span-5 min-w-0">
             <NuxtPage />
-        </div>
+        </main>
     </div>
 </template>

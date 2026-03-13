@@ -3,6 +3,9 @@ export default defineAppConfig({
         colors: {
             primary: 'brand',
         },
+        container: {
+            base: 'w-full max-w-(--ui-container) mx-auto px-4 sm:px-4 lg:px-4',
+        },
         icons: {
             arrowDown: 'i-ph-arrow-down',
             arrowLeft: 'i-ph-arrow-left',

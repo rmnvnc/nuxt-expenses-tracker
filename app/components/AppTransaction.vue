@@ -96,7 +96,10 @@ const textColor = computed(() =>
                     {{ transaction.description }}
                 </div>
 
-                <div v-if="categoryStyle">
+                <div
+                    v-if="categoryStyle"
+                    class="flex"
+                >
                     <UBadge
                         size="lg"
                         :icon="categoryStyle.icon"
