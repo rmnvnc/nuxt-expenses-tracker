@@ -48,7 +48,7 @@ const refresh = async () => {
 
 <template>
     <div>
-        <section class="flex items-center justify-between mb-10">
+        <section class="flex items-center justify-between my-10">
             <h1>Summary</h1>
             <div>
                 <USelect

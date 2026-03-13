@@ -16,7 +16,7 @@ const items = ref<NavigationMenuItem[][]>([
 </script>
 
 <template>
-    <div class="grid grid-cols-1 gap-6 lg:grid-cols-6 lg:gap-8">
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-6 lg:gap-8 mt-10">
         <aside class="lg:col-span-1">
             <UNavigationMenu
                 orientation="vertical"

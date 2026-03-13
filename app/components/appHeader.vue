@@ -37,19 +37,25 @@ const items = computed<DropdownMenuItem[][]>(() => [
 </script>
 
 <template>
-    <header class="flex justify-between items-center my-5">
-        <NuxtLink
-            :to="isDashboard ? '/dashboard' : '/'"
-            class="flex items-center gap-3 font-sans font-bold text-2xl"
-        >
-            <img
-                src="/images/finflo-logo.svg"
-                class="w-10 h-10"
-                alt="Finflo logo"
-            />
-            Finflo
-        </NuxtLink>
-        <div>
+    <UHeader
+        :toggle="{
+            class: 'hidden',
+        }"
+    >
+        <template #left>
+            <NuxtLink
+                :to="isDashboard ? '/dashboard' : '/'"
+                class="flex items-center gap-3 font-sans font-bold text-2xl"
+            >
+                <img
+                    src="/images/finflo-logo.svg"
+                    class="w-10 h-10"
+                    alt="Finflo logo"
+                />
+                Finflo
+            </NuxtLink>
+        </template>
+        <template #right>
             <ClientOnly>
                 <template #fallback>
                     <UButton
@@ -66,10 +72,7 @@ const items = computed<DropdownMenuItem[][]>(() => [
                     <template v-else>
                         {{ displayName }}
                     </template>
-                    <UDropdownMenu
-                        :items="items"
-                        class="ml-4"
-                    >
+                    <UDropdownMenu :items="items">
                         <UAvatar :alt="displayName" />
                     </UDropdownMenu>
                 </template>
@@ -79,8 +82,8 @@ const items = computed<DropdownMenuItem[][]>(() => [
                     label="Login"
                 />
             </ClientOnly>
-        </div>
-    </header>
+        </template>
+    </UHeader>
 </template>
 
 <style lang="css" scoped></style>
