@@ -4,12 +4,12 @@ import { Analytics } from '@vercel/analytics/nuxt'
 </script>
 
 <template>
-    <div class="container mx-auto max-w-4xl px-4">
+    <UContainer >
         <AppHeader />
-        <main>
+        <UMain>
             <slot />
-        </main>
-    </div>
+        </Umain>
+    </UContainer>
     <SpeedInsights />
     <Analytics />
 </template>

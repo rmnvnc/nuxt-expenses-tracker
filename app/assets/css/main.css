@@ -166,4 +166,5 @@
     --ui-border-accented: var(--ui-muted);
     --ui-error: var(--color-error-400);
     --ui-success: var(--color-success-400);
+    --ui-container: 56rem;
 }
