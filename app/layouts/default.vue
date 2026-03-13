@@ -4,11 +4,11 @@ import { Analytics } from '@vercel/analytics/nuxt'
 </script>
 
 <template>
-    <UContainer >
+    <UContainer>
         <AppHeader />
         <UMain>
             <slot />
-        </Umain>
+        </UMain>
     </UContainer>
     <SpeedInsights />
     <Analytics />
