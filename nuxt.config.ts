@@ -56,8 +56,8 @@ export default defineNuxtConfig({
 
     routeRules: {
         '/': { prerender: true },
-        '/dashboard': { ssr: false },
-        '/dashboard/**': { ssr: false },
+        '/dashboard': { ssr: false, appLayout: 'dashboard' },
+        '/dashboard/**': { ssr: false, appLayout: 'dashboard' },
         '/login': { ssr: false },
         '/confirm': { ssr: false },
         '/dashboard/settings': { redirect: '/dashboard/settings/profile' },

@@ -1,7 +1,4 @@
-<script setup lang="ts">
-import { SpeedInsights } from '@vercel/speed-insights/nuxt'
-import { Analytics } from '@vercel/analytics/nuxt'
-</script>
+<script setup lang="ts"></script>
 
 <template>
     <AppHeader />
@@ -10,6 +7,4 @@ import { Analytics } from '@vercel/analytics/nuxt'
             <slot />
         </UContainer>
     </UMain>
-    <SpeedInsights />
-    <Analytics />
 </template>
