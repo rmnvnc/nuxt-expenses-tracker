@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { SpeedInsights } from '@vercel/speed-insights/nuxt'
 import { Analytics } from '@vercel/analytics/nuxt'
+import { sk } from '@nuxt/ui/locale'
 </script>
 
 <template>
     <NuxtPwaManifest />
-    <UApp>
+    <UApp :locale="sk">
         <NuxtLayout>
             <NuxtPage />
         </NuxtLayout>

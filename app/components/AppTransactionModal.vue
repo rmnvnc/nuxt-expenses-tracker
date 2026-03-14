@@ -2,8 +2,14 @@
 import { useMediaQuery } from '@vueuse/core'
 import type { FormSubmitEvent, FormErrorEvent } from '@nuxt/ui'
 import type { Database } from '~/types/database.types'
-import type { TransactionType, TransactionCategory } from '~/types/transaction.types'
+import type {
+    TransactionType,
+    TransactionCategory,
+    TransactionCategoryName,
+} from '~/types/transaction.types'
 import AppTransactionTypePicker from './AppTransactionTypePicker.vue'
+import { today, getLocalTimeZone, type DateValue } from '@internationalized/date'
+import { categoryStyleMap } from '~/constants'
 import * as z from 'zod'
 
 const supabase = useSupabaseClient<Database>()
@@ -29,6 +35,8 @@ const buildSchema = (isExpense: boolean) =>
 type Schema = z.output<ReturnType<typeof buildSchema>>
 
 const schema = computed(() => buildSchema(isExpense.value))
+const datePickerValue = ref(today(getLocalTimeZone())) as Ref<DateValue>
+const inputDate = useTemplateRef('inputDate')
 
 type FormState = {
     type_id: TransactionType['id'] | undefined
@@ -44,7 +52,7 @@ const initialState = (): FormState => ({
     type_id: defaultTypeId.value,
     category_id: undefined,
     amount: undefined,
-    created_at: undefined,
+    created_at: today(getLocalTimeZone()).toString(),
     description: undefined,
 })
 
@@ -52,6 +60,7 @@ const state = ref<FormState>(initialState())
 
 const resetForm = () => {
     state.value = initialState()
+    datePickerValue.value = today(getLocalTimeZone())
 }
 
 watch(isOpen, () => resetForm())
@@ -63,6 +72,14 @@ watch(
             state.value.category_id = undefined
         }
     }
+)
+
+watch(
+    datePickerValue,
+    (val) => {
+        state.value.created_at = val.toString()
+    },
+    { immediate: true }
 )
 
 function onError(event: FormErrorEvent) {
@@ -102,7 +119,13 @@ const categoryItems = computed(() =>
     (categories.value ?? []).map((c: TransactionCategory) => ({
         label: c.name,
         value: c.id,
+        icon: categoryStyleMap[c.name as TransactionCategoryName]?.icon,
+        color: categoryStyleMap[c.name as TransactionCategoryName]?.text,
     }))
+)
+
+const selectedCategory = computed(() =>
+    categoryItems.value.find((c) => c.value === state.value.category_id)
 )
 
 const isLargeScreen = useMediaQuery('(max-width: 768px)')
@@ -128,6 +151,18 @@ const isLargeScreen = useMediaQuery('(max-width: 768px)')
                 @submit="onSubmit"
             >
                 <UFormField
+                    label="Transaction type"
+                    name="type_id"
+                    class="mb-4"
+                    :required="true"
+                >
+                    <AppTransactionTypePicker
+                        v-model="state.type_id"
+                        :items="types ?? []"
+                    />
+                </UFormField>
+
+                <UFormField
                     label="Amount"
                     :required="true"
                     name="amount"
@@ -149,31 +184,37 @@ const isLargeScreen = useMediaQuery('(max-width: 768px)')
                         }"
                     />
                 </UFormField>
-
-                <UFormField
-                    label="Transaction type"
-                    name="type_id"
-                    class="mb-4"
-                    :required="true"
-                >
-                    <AppTransactionTypePicker
-                        v-model="state.type_id"
-                        :items="types ?? []"
-                    />
-                </UFormField>
-
                 <UFormField
                     label="Transaction date"
                     :required="true"
                     name="created_at"
                     class="mb-4"
                 >
-                    <UInput
-                        v-model="state.created_at"
-                        type="date"
-                        placeholder="Transaction date"
-                        trailing-icon="ph:calendar-blank"
-                    />
+                    <UInputDate
+                        ref="inputDate"
+                        v-model="datePickerValue"
+                        size="xl"
+                    >
+                        <template #trailing>
+                            <UPopover :reference="inputDate?.inputsRef[3]?.$el">
+                                <UButton
+                                    color="neutral"
+                                    variant="link"
+                                    size="sm"
+                                    icon="i-lucide-calendar"
+                                    aria-label="Select a date"
+                                    class="px-0"
+                                />
+
+                                <template #content>
+                                    <UCalendar
+                                        v-model="datePickerValue"
+                                        class="p-2"
+                                    />
+                                </template>
+                            </UPopover>
+                        </template>
+                    </UInputDate>
                 </UFormField>
 
                 <UFormField
@@ -186,9 +227,24 @@ const isLargeScreen = useMediaQuery('(max-width: 768px)')
                     <USelect
                         v-model="state.category_id"
                         :items="categoryItems"
+                        size="xl"
                         :ui="{ content: 'min-w-fit' }"
                         placeholder="Select a category"
-                    />
+                    >
+                        <template #leading>
+                            <UIcon
+                                v-if="selectedCategory"
+                                :name="selectedCategory.icon"
+                                :class="selectedCategory.color"
+                            />
+                        </template>
+                        <template #item-leading="{ item }">
+                            <UIcon
+                                :name="item.icon"
+                                :class="item.color"
+                            />
+                        </template>
+                    </USelect>
                 </UFormField>
 
                 <UFormField

@@ -86,7 +86,7 @@ export const categoryStyleMap: Record<
     Health: {
         text: 'text-cat-health',
         bg: 'bg-cat-health-soft',
-        icon: 'ph:heart-pulse-fill',
+        icon: 'ph:heart-fill',
     },
     Shopping: {
         text: 'text-cat-shopping',
