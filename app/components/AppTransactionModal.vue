@@ -135,7 +135,9 @@ const isLargeScreen = useMediaQuery('(max-width: 768px)')
     <UModal
         v-model:open="isOpen"
         scrollable
+        :close="false"
         :fullscreen="isLargeScreen"
+        :ui="{ content: 'min-h-full md:min-h-auto', footer: 'gap-4' }"
     >
         <UButton
             icon="ph:plus-circle"
@@ -148,6 +150,7 @@ const isLargeScreen = useMediaQuery('(max-width: 768px)')
         />
         <template #body>
             <UForm
+                id="addTransaction"
                 :state="state"
                 :schema="schema"
                 @error="onError"
@@ -253,27 +256,38 @@ const isLargeScreen = useMediaQuery('(max-width: 768px)')
                 <UFormField
                     label="Description"
                     name="description"
-                    class="mb-4"
                     hint="Optional"
                 >
                     <UTextarea
                         v-model="state.description"
                         class="w-full"
+                        size="xl"
                         placeholder="Description"
                         :rows="2"
                     />
                 </UFormField>
-
-                <UButton
-                    class="mt-4 py-4"
-                    size="xl"
-                    type="submit"
-                    block
-                    :loading="isLoading"
-                >
-                    Submit
-                </UButton>
             </UForm>
+        </template>
+        <template #footer>
+            <UButton
+                class="p-4"
+                color="error"
+                variant="soft"
+                size="xl"
+                @click="isOpen = false"
+            >
+                Cancel
+            </UButton>
+            <UButton
+                class="p-4 w-full"
+                size="xl"
+                type="submit"
+                block
+                :loading="isLoading"
+                form="addTransaction"
+            >
+                Submit
+            </UButton>
         </template>
     </UModal>
 </template>

@@ -10,8 +10,8 @@ export const transactionViewOptions: TransactionViewOption[] = [...TRANSACTION_V
 export const TRANSACTION_TYPES = {
     INCOME: 'Income',
     EXPENSE: 'Expense',
-    SAVING: 'Saving',
-    INVESTMENT: 'Investment',
+    // SAVING: 'Saving',
+    // INVESTMENT: 'Investment',
 } as const
 
 export const TRANSACTION_CATEGORIES = {
@@ -27,6 +27,9 @@ export const TRANSACTION_CATEGORIES = {
     EDUCATION: 'Education',
     ENTERTAINMENT: 'Entertainment',
     SPORT: 'Sport',
+    SAVING: 'Saving',
+    INVESTMENT: 'Investment',
+    OTHERS: 'Others',
 } as const
 
 export const variantStyleMap: Record<
@@ -45,23 +48,11 @@ export const variantStyleMap: Record<
         border: 'ring-expense-border',
         icon: 'ph:arrow-down-bold',
     },
-    Saving: {
-        text: 'text-saving',
-        bg: 'bg-saving-soft',
-        border: 'ring-saving-border',
-        icon: 'ph:piggy-bank-bold',
-    },
-    Investment: {
-        text: 'text-investment',
-        bg: 'bg-investment-soft',
-        border: 'ring-investment-border',
-        icon: 'ph:chart-line-up-bold',
-    },
 }
 
 export const categoryStyleMap: Record<
     TransactionCategoryName,
-    { text: string; bg: string; icon: string }
+    { text: string; bg: string; icon: string; border?: string }
 > = {
     Food: {
         text: 'text-cat-food',
@@ -121,6 +112,23 @@ export const categoryStyleMap: Record<
     Subscriptions: {
         text: 'text-cat-subscriptions',
         bg: 'bg-cat-subscriptions-soft',
-        icon: 'ph:repeat-fill',
+        icon: 'ph:repeat-bold',
+    },
+    Saving: {
+        text: 'text-cat-saving',
+        bg: 'bg-cat-saving-soft',
+        border: 'ring-cat-saving-border',
+        icon: 'ph:piggy-bank-bold',
+    },
+    Investment: {
+        text: 'text-cat-investment',
+        bg: 'bg-cat-investment-soft',
+        border: 'ring-cat-investment-border',
+        icon: 'ph:chart-line-up-bold',
+    },
+    Others: {
+        text: 'text-cat-others',
+        bg: 'bg-cat-others-soft',
+        icon: 'ph:dots-three-outline-fill',
     },
 }
