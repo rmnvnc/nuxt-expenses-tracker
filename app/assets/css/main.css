@@ -47,7 +47,7 @@
     --color-cat-housing: #a16207;
     --color-cat-housing-soft: color-mix(in srgb, var(--color-cat-housing) 7%, transparent);
 
-    --color-cat-car: #475569;
+    --color-cat-car: #798ba3;
     --color-cat-car-soft: color-mix(in srgb, var(--color-cat-car) 7%, transparent);
 
     --color-cat-health: #06b6d4;

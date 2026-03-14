@@ -78,24 +78,26 @@ const textColor = computed(() =>
     <div class="grid grid-cols-[minmax(0,1fr)_auto] py-2 gap-2">
         <div class="flex items-center min-w-0">
             <div
-                class="flex mr-4 shrink-0 p-2 rounded-lg"
+                class="flex mr-4 shrink-0 p-3 rounded-lg"
                 :class="transactionStyle.bg"
             >
                 <UIcon
                     :name="icon"
-                    class="w-5 h-5"
+                    class="w-6 h-6"
                     :class="iconColor"
                 />
             </div>
 
-            <div
-                class="flex flex-col gap-1 min-w-0 font-semibold"
-                :class="iconColor"
-            >
-                {{ transaction.category?.name ?? transaction.type.name }}
+            <div class="flex flex-col min-w-0">
+                <span
+                    class="font-semibold"
+                    :class="iconColor"
+                >
+                    {{ transaction.category?.name ?? transaction.type.name }}
+                </span>
                 <div
                     v-if="transaction.description"
-                    class="truncate"
+                    class="truncate text-sm"
                 >
                     {{ transaction.description }}
                 </div>
