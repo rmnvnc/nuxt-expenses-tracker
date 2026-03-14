@@ -141,6 +141,9 @@ const isLargeScreen = useMediaQuery('(max-width: 768px)')
             icon="ph:plus-circle"
             color="primary"
             label="Add"
+            size="xl"
+            class="fixed bottom-6 right-4 z-10 md:static"
+            :ui="{ leadingIcon: 'size-10' }"
             @click="isOpen = true"
         />
         <template #body>
