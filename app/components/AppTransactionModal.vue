@@ -26,7 +26,7 @@ const isExpense = computed(() => state.value.type_id === expenseTypeId.value)
 const buildSchema = (isExpense: boolean) =>
     z.object({
         type_id: z.number({ error: 'Select a transaction type' }),
-        amount: z.number().positive('Amount needs to be more than 0'),
+        amount: z.number('Enter an amount').positive('Amount needs to be more than 0'),
         created_at: z.string({ error: 'Insert transaction date' }),
         description: z.string().optional(),
         category_id: isExpense ? z.number({ error: 'Select a category' }) : z.number().optional(),
@@ -185,6 +185,36 @@ const isLargeScreen = useMediaQuery('(max-width: 768px)')
                     />
                 </UFormField>
                 <UFormField
+                    v-if="isExpense"
+                    label="Category"
+                    class="mb-4"
+                    :required="true"
+                    name="category_id"
+                >
+                    <USelect
+                        v-model="state.category_id"
+                        :items="categoryItems"
+                        size="xl"
+                        :ui="{ content: 'min-w-fit' }"
+                        placeholder="Select a category"
+                    >
+                        <template #leading>
+                            <UIcon
+                                v-if="selectedCategory"
+                                :name="selectedCategory.icon"
+                                :class="selectedCategory.color"
+                            />
+                        </template>
+                        <template #item-leading="{ item }">
+                            <UIcon
+                                :name="item.icon"
+                                :class="item.color"
+                                class="size-5 self-center"
+                            />
+                        </template>
+                    </USelect>
+                </UFormField>
+                <UFormField
                     label="Transaction date"
                     :required="true"
                     name="created_at"
@@ -215,36 +245,6 @@ const isLargeScreen = useMediaQuery('(max-width: 768px)')
                             </UPopover>
                         </template>
                     </UInputDate>
-                </UFormField>
-
-                <UFormField
-                    v-if="isExpense"
-                    label="Category"
-                    class="mb-4"
-                    :required="true"
-                    name="category_id"
-                >
-                    <USelect
-                        v-model="state.category_id"
-                        :items="categoryItems"
-                        size="xl"
-                        :ui="{ content: 'min-w-fit' }"
-                        placeholder="Select a category"
-                    >
-                        <template #leading>
-                            <UIcon
-                                v-if="selectedCategory"
-                                :name="selectedCategory.icon"
-                                :class="selectedCategory.color"
-                            />
-                        </template>
-                        <template #item-leading="{ item }">
-                            <UIcon
-                                :name="item.icon"
-                                :class="item.color"
-                            />
-                        </template>
-                    </USelect>
                 </UFormField>
 
                 <UFormField
