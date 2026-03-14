@@ -29,6 +29,7 @@ export const TRANSACTION_CATEGORIES = {
     SPORT: 'Sport',
     SAVING: 'Saving',
     INVESTMENT: 'Investment',
+    OTHERS: 'Others',
 } as const
 
 export const variantStyleMap: Record<
@@ -111,18 +112,23 @@ export const categoryStyleMap: Record<
     Subscriptions: {
         text: 'text-cat-subscriptions',
         bg: 'bg-cat-subscriptions-soft',
-        icon: 'ph:repeat-fill',
+        icon: 'ph:repeat-bold',
     },
     Saving: {
-        text: 'text-saving',
-        bg: 'bg-saving-soft',
-        border: 'ring-saving-border',
+        text: 'text-cat-saving',
+        bg: 'bg-cat-saving-soft',
+        border: 'ring-cat-saving-border',
         icon: 'ph:piggy-bank-bold',
     },
     Investment: {
-        text: 'text-investment',
-        bg: 'bg-investment-soft',
-        border: 'ring-investment-border',
+        text: 'text-cat-investment',
+        bg: 'bg-cat-investment-soft',
+        border: 'ring-cat-investment-border',
         icon: 'ph:chart-line-up-bold',
+    },
+    Others: {
+        text: 'text-cat-others',
+        bg: 'bg-cat-others-soft',
+        icon: 'ph:dots-three-outline-fill',
     },
 }

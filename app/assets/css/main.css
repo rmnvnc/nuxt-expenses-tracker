@@ -40,50 +40,35 @@
     --color-expense-soft: color-mix(in srgb, var(--color-expense) 7%, transparent);
     --color-expense-border: color-mix(in srgb, var(--color-expense) 24%, transparent);
 
-    --color-saving: var(--color-brand-400);
-    --color-saving-soft: color-mix(in srgb, var(--color-saving) 7%, transparent);
-    --color-saving-border: color-mix(in srgb, var(--color-saving) 24%, transparent);
-
-    --color-investment: #fbbf24;
-    --color-investment-soft: color-mix(in srgb, var(--color-investment) 7%, transparent);
-    --color-investment-border: color-mix(in srgb, var(--color-investment) 24%, transparent);
-
     /* categories */
-    --color-cat-entertainment: #ec4899;
-    --color-cat-entertainment-soft: color-mix(
-        in srgb,
-        var(--color-cat-entertainment) 7%,
-        transparent
-    );
-
-    --color-cat-food: #f97316;
+    --color-cat-food: #84cc16;
     --color-cat-food-soft: color-mix(in srgb, var(--color-cat-food) 7%, transparent);
 
-    --color-cat-housing: #6366f1;
+    --color-cat-housing: #a16207;
     --color-cat-housing-soft: color-mix(in srgb, var(--color-cat-housing) 7%, transparent);
 
-    --color-cat-car: #64748b;
+    --color-cat-car: #475569;
     --color-cat-car-soft: color-mix(in srgb, var(--color-cat-car) 7%, transparent);
 
-    --color-cat-health: #22d3a5;
+    --color-cat-health: #06b6d4;
     --color-cat-health-soft: color-mix(in srgb, var(--color-cat-health) 7%, transparent);
 
-    --color-cat-shopping: #f59e0b;
+    --color-cat-shopping: #e879f9;
     --color-cat-shopping-soft: color-mix(in srgb, var(--color-cat-shopping) 7%, transparent);
 
     --color-cat-travel: #38bdf8;
     --color-cat-travel-soft: color-mix(in srgb, var(--color-cat-travel) 7%, transparent);
 
-    --color-cat-education: #a78bfa;
+    --color-cat-education: #7c3aed;
     --color-cat-education-soft: color-mix(in srgb, var(--color-cat-education) 7%, transparent);
 
-    --color-cat-utilities: #94a3b8;
+    --color-cat-utilities: #0369a1;
     --color-cat-utilities-soft: color-mix(in srgb, var(--color-cat-utilities) 7%, transparent);
 
     --color-cat-sport: #4ade80;
     --color-cat-sport-soft: color-mix(in srgb, var(--color-cat-sport) 7%, transparent);
 
-    --color-cat-restaurant: #fb923c;
+    --color-cat-restaurant: #f97316;
     --color-cat-restaurant-soft: color-mix(in srgb, var(--color-cat-restaurant) 7%, transparent);
 
     --color-cat-subscriptions: #c084fc;
@@ -92,6 +77,24 @@
         var(--color-cat-subscriptions) 7%,
         transparent
     );
+
+    --color-cat-entertainment: #ec4899;
+    --color-cat-entertainment-soft: color-mix(
+        in srgb,
+        var(--color-cat-entertainment) 7%,
+        transparent
+    );
+
+    --color-cat-saving: #818cf8;
+    --color-cat-saving-soft: color-mix(in srgb, var(--color-cat-saving) 7%, transparent);
+    --color-cat-saving-border: color-mix(in srgb, var(--color-cat-saving) 24%, transparent);
+
+    --color-cat-investment: #fbbf24;
+    --color-cat-investment-soft: color-mix(in srgb, var(--color-cat-investment) 7%, transparent);
+    --color-cat-investment-border: color-mix(in srgb, var(--color-cat-investment) 24%, transparent);
+
+    --color-cat-others: #94a3b8;
+    --color-cat-others-soft: color-mix(in srgb, var(--color-cat-others) 7%, transparent);
 }
 
 @layer base {

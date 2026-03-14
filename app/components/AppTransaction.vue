@@ -13,10 +13,10 @@ const emit = defineEmits(['deleted'])
 
 const { currency } = useCurrency(computed(() => props.transaction.amount ?? 0))
 
-// const isIncome = computed(() => props.transaction.type.name === 'Income')
-const transactionStyle = computed(() => variantStyleMap[props.transaction.type.name])
-const categoryStyle = computed(() =>
-    props.transaction.category?.name ? categoryStyleMap[props.transaction.category.name] : undefined
+const transactionStyle = computed(() =>
+    props.transaction.category?.name
+        ? categoryStyleMap[props.transaction.category.name]
+        : variantStyleMap[props.transaction.type.name]
 )
 const isLoading = ref(false)
 
@@ -88,26 +88,16 @@ const textColor = computed(() =>
                 />
             </div>
 
-            <div class="flex flex-col gap-1 min-w-0">
+            <div
+                class="flex flex-col gap-1 min-w-0 font-semibold"
+                :class="iconColor"
+            >
+                {{ transaction.category?.name ?? transaction.type.name }}
                 <div
                     v-if="transaction.description"
                     class="truncate"
                 >
                     {{ transaction.description }}
-                </div>
-
-                <div
-                    v-if="categoryStyle"
-                    class="flex"
-                >
-                    <UBadge
-                        size="lg"
-                        :icon="categoryStyle.icon"
-                        class="rounded-full gap-2"
-                        :class="[categoryStyle.text, categoryStyle.bg]"
-                    >
-                        {{ transaction.category?.name }}
-                    </UBadge>
                 </div>
             </div>
         </div>
