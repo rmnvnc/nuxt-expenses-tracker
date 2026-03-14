@@ -1,13 +1,15 @@
 <script setup lang="ts">
+import { useMediaQuery } from '@vueuse/core'
 import type { FormSubmitEvent, FormErrorEvent } from '@nuxt/ui'
 import type { Database } from '~/types/database.types'
 import type { TransactionType, TransactionCategory } from '~/types/transaction.types'
+import AppTransactionTypePicker from './AppTransactionTypePicker.vue'
 import * as z from 'zod'
 
 const supabase = useSupabaseClient<Database>()
 const { toastError, toastSuccess } = useAppToast()
 
-const isOpen = defineModel<boolean>('isOpen', { required: true })
+const isOpen = ref(false)
 
 const { types, categories } = useTransactionLookups()
 
@@ -31,23 +33,25 @@ const schema = computed(() => buildSchema(isExpense.value))
 type FormState = {
     type_id: TransactionType['id'] | undefined
     category_id: TransactionCategory['id'] | undefined
-    amount: number
+    amount: number | undefined
     created_at: string | undefined
     description: string | undefined
 }
 
-const initialState: FormState = {
-    type_id: undefined,
+const defaultTypeId = computed(() => types.value?.find((t) => t.name === 'Expense')?.id)
+
+const initialState = (): FormState => ({
+    type_id: defaultTypeId.value,
     category_id: undefined,
-    amount: 0,
+    amount: undefined,
     created_at: undefined,
     description: undefined,
-}
+})
 
-const state = ref<FormState>({ ...initialState })
+const state = ref<FormState>(initialState())
 
 const resetForm = () => {
-    Object.assign(state.value, initialState)
+    state.value = initialState()
 }
 
 watch(isOpen, () => resetForm())
@@ -93,14 +97,29 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     emit('saved')
     isLoading.value = false
 }
+
+const categoryItems = computed(() =>
+    (categories.value ?? []).map((c: TransactionCategory) => ({
+        label: c.name,
+        value: c.id,
+    }))
+)
+
+const isLargeScreen = useMediaQuery('(max-width: 768px)')
 </script>
 
 <template>
     <UModal
         v-model:open="isOpen"
-        title="Add transaction"
         scrollable
+        :fullscreen="isLargeScreen"
     >
+        <UButton
+            icon="ph:plus-circle"
+            color="primary"
+            label="Add"
+            @click="isOpen = true"
+        />
         <template #body>
             <UForm
                 :state="state"
@@ -109,34 +128,37 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                 @submit="onSubmit"
             >
                 <UFormField
-                    label="Transaction type"
-                    name="type_id"
-                    class="mb-4"
-                    :required="true"
-                >
-                    <USelect
-                        v-model="state.type_id"
-                        :items="
-                            (types ?? []).map((t: TransactionType) => ({
-                                label: t.name,
-                                value: t.id,
-                            }))
-                        "
-                        :ui="{ content: 'min-w-fit' }"
-                        placeholder="Select the transaction type"
-                    />
-                </UFormField>
-
-                <UFormField
                     label="Amount"
                     :required="true"
                     name="amount"
                     class="mb-4"
                 >
-                    <UInput
-                        v-model.number="state.amount"
-                        type="number"
-                        placeholder="Amount"
+                    <UInputNumber
+                        v-model="state.amount"
+                        autofocus
+                        size="xl"
+                        class="w-full"
+                        :ui="{ base: 'text-4xl text-right' }"
+                        :increment="false"
+                        :decrement="false"
+                        :step="0.01"
+                        locale="sk-SK"
+                        :format-options="{
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 2,
+                        }"
+                    />
+                </UFormField>
+
+                <UFormField
+                    label="Transaction type"
+                    name="type_id"
+                    class="mb-4"
+                    :required="true"
+                >
+                    <AppTransactionTypePicker
+                        v-model="state.type_id"
+                        :items="types ?? []"
                     />
                 </UFormField>
 
@@ -155,18 +177,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                 </UFormField>
 
                 <UFormField
-                    label="Description"
-                    name="description"
-                    class="mb-4"
-                    hint="Optional"
-                >
-                    <UInput
-                        v-model="state.description"
-                        placeholder="Description"
-                    />
-                </UFormField>
-
-                <UFormField
                     v-if="isExpense"
                     label="Category"
                     class="mb-4"
@@ -175,20 +185,31 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                 >
                     <USelect
                         v-model="state.category_id"
-                        :items="
-                            (categories ?? []).map((c: TransactionCategory) => ({
-                                label: c.name,
-                                value: c.id,
-                            }))
-                        "
+                        :items="categoryItems"
                         :ui="{ content: 'min-w-fit' }"
                         placeholder="Select a category"
                     />
                 </UFormField>
 
+                <UFormField
+                    label="Description"
+                    name="description"
+                    class="mb-4"
+                    hint="Optional"
+                >
+                    <UTextarea
+                        v-model="state.description"
+                        class="w-full"
+                        placeholder="Description"
+                        :rows="2"
+                    />
+                </UFormField>
+
                 <UButton
-                    class="mt-4"
+                    class="mt-4 py-4"
+                    size="xl"
                     type="submit"
+                    block
                     :loading="isLoading"
                 >
                     Submit

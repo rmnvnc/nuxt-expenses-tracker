@@ -8,7 +8,6 @@ const { profile } = useUser()
 const selectedView = ref<TransactionViewOption>(
     profile.value?.user_metadata.preference?.transaction_view ?? transactionViewOptionDefault
 )
-const isOpen = ref(false)
 
 const { current, previous } = useSelectedTimePeriod(selectedView)
 
@@ -96,16 +95,7 @@ const refresh = async () => {
                 </p>
             </div>
             <div>
-                <UButton
-                    icon="ph:plus-circle"
-                    color="primary"
-                    label="Add"
-                    @click="isOpen = true"
-                />
-                <AppTransactionModal
-                    v-model:is-open="isOpen"
-                    @saved="refresh()"
-                />
+                <AppTransactionModal @saved="refresh()" />
             </div>
         </section>
 

@@ -74,7 +74,10 @@ const { currency } = useCurrency(toRef(() => props.amount))
 </script>
 
 <template>
-    <UCard :class="[bgColor, borderColor]">
+    <UCard
+        :class="[bgColor, borderColor]"
+        :ui="{ body: 'p-4 sm:p-4' }"
+    >
         <p class="label mb-2">
             {{ title }}
         </p>
@@ -91,7 +94,7 @@ const { currency } = useCurrency(toRef(() => props.amount))
         <div>
             <USkeleton
                 v-if="loading"
-                class="h-[27px] w-full"
+                class="h-[27px] w-3/4"
             />
             <div
                 v-else
