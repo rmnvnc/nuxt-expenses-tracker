@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import type { TransactionTypeName } from '~/types/transaction.types'
+import type { TransactionCategoryName, TransactionTypeName } from '~/types/transaction.types'
 
-import { variantStyleMap } from '~/constants'
+import { categoryStyleMap, variantStyleMap } from '~/constants'
 
 interface Props {
     title?: string
     amount?: number
     lastAmount?: number
     loading?: boolean
-    variant?: TransactionTypeName
+    variant?: TransactionTypeName | TransactionCategoryName
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -19,7 +19,11 @@ const props = withDefaults(defineProps<Props>(), {
     variant: 'Income',
 })
 
-const currentStyle = computed(() => variantStyleMap[props.variant])
+const currentStyle = computed(
+    () =>
+        variantStyleMap[props.variant as TransactionTypeName] ??
+        categoryStyleMap[props.variant as TransactionCategoryName]
+)
 const textColor = computed(() => currentStyle.value.text)
 const bgColor = computed(() => currentStyle.value.bg)
 const borderColor = computed(() => currentStyle.value.border)
